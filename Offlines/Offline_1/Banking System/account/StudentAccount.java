@@ -8,11 +8,13 @@ public class StudentAccount extends Account {
     private static final double MAX_WITHDRAWAL_AMOUNT = 10000;
     private static final double MAX_LOAN_AMOUNT = 1000;
 
-    public static void setBalanceInterestRate(double balanceInterestRate) {
+    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException{
+        if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
         StudentAccount.balanceInterestRate = balanceInterestRate;
     }
 
-    public StudentAccount(String name, double balance){
+    public StudentAccount(String name, double balance)throws IllegalArgumentException{
+        if(balance < 0)throw new IllegalArgumentException("Balance cannot be negative");
         this.name = name;
         this.balance = balance;
         setType();
@@ -24,13 +26,15 @@ public class StudentAccount extends Account {
     }
 
     @Override
-    public boolean deposit(double amount) {
+    public boolean deposit(double amount)throws IllegalArgumentException{
+        if(amount < 0)throw new IllegalArgumentException("Deposit amount cannot be negative");
         balance += amount;
         return true;
     }
 
     @Override
-    public boolean withdraw(double amount) {
+    public boolean withdraw(double amount)throws IllegalArgumentException{
+        if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
         if(amount > MAX_WITHDRAWAL_AMOUNT || balance  < amount) {
             return false;
         }
@@ -41,8 +45,9 @@ public class StudentAccount extends Account {
     }
 
     @Override
-    public Loan requestLoan(double amount) {
-        if(amount > MAX_LOAN_AMOUNT)return null;
+    public Loan requestLoan(double amount) throws IllegalArgumentException{
+        if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
+        if(amount > MAX_LOAN_AMOUNT)throw new IllegalArgumentException("Loan limit exceeded");
         else{
             return new Loan(name, amount);
         }

@@ -2,33 +2,41 @@ package account;
 
 import loan.Loan;
 
-public class SavingsAccount extends Account {
-    private static double balanceInterestRate = 10;
+public class FixedDepositAccount extends Account {
+    private static double balanceInterestRate = 5;
     private static double serviceCharge = 500;
 
-    private static final double MAX_LOAN_AMOUNT = 10000;
-    private static final double MIN_BALANCE_ON_WITHDRAWAL = 1000;
+    public static final double MIN_INIT_BALANCE = 100000; 
+    private static final double MIN_DEPOSIT = 50000;
+    private static final int MIN_WITHDRAWAL_AGE = 1;
+    private static final double MAX_LOAN_AMOUNT = 100000;
+
+    private int accountAge;
 
     public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException{
         if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
-        SavingsAccount.balanceInterestRate = balanceInterestRate;
+        FixedDepositAccount.balanceInterestRate = balanceInterestRate;
     }
 
-    public SavingsAccount(String name, double balance)throws IllegalArgumentException {
-        if(balance < 0)throw new IllegalArgumentException("Balance cannot be negative");
+    public FixedDepositAccount(String name, double balance)throws IllegalArgumentException {
+        if(balance < MIN_INIT_BALANCE)throw new IllegalArgumentException("Balance too low");
         this.name = name;
         this.balance = balance;
+        accountAge = 0;
         setType();
     }
 
+    public void setAccountAge(int accountAge) { this.accountAge = accountAge; }
+    public int getAccountAge() { return accountAge; }
+
     @Override
-    public void setType(){
-        type = "Savings";
+    public void setType() {
+        type = "Fixed deposit";    
     }
 
     @Override
     public boolean deposit(double amount)throws IllegalArgumentException{
-        if(amount < 0)throw new IllegalArgumentException("Deposit amount cannot be negative");
+        if(amount < MIN_DEPOSIT)throw new IllegalArgumentException("Deposit too low");
         balance += amount;
         return true;
     }
@@ -36,11 +44,9 @@ public class SavingsAccount extends Account {
     @Override
     public boolean withdraw(double amount)throws IllegalArgumentException{
         if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
-        if (balance - amount < MIN_BALANCE_ON_WITHDRAWAL)return false;
-        else {
-            balance -= amount;
-            return true;
-        }
+        if(accountAge < MIN_WITHDRAWAL_AGE)return false;
+        balance -= amount;
+        return true;
     }
 
     @Override
@@ -49,19 +55,19 @@ public class SavingsAccount extends Account {
         if(amount > MAX_LOAN_AMOUNT)throw new IllegalArgumentException("Loan limit exceeded");
         else{
             return new Loan(name, amount);
-        }
-    }
+        }}
 
     @Override
     public double getBalanceInterestRate() { return balanceInterestRate; }
 
     @Override
     public void deductServiceCharge() {
-        balance -= serviceCharge;    
+        balance -= serviceCharge;
     }
 
     @Override
-    public void incrementBalanceByInterest() {
+    public void incrementBalanceByInterest() {    
         balance *= (1 + balanceInterestRate/100.0);    
     }
+    
 }
