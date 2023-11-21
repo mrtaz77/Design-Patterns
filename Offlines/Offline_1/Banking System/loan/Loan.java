@@ -15,16 +15,14 @@ public class Loan {
     private Status status;
     private int yearsSinceApproval;
 
-    // Constructor
     public Loan(String applicantName, double amount) {
         this.applicantName = applicantName;
         this.amount = amount;
         this.approverName = "";
         this.status = Status.PENDING;
-        this.yearsSinceApproval = 0;
+        this.yearsSinceApproval = -1;
     }
 
-    // Getter methods
     public String getApplicantName() {
         return applicantName;
     }
@@ -45,7 +43,6 @@ public class Loan {
         return yearsSinceApproval;
     }
 
-    // Setter methods
     public void setApplicantName(String applicantName) {
         this.applicantName = applicantName;
     }
