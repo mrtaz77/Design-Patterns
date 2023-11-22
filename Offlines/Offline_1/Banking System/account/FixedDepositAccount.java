@@ -3,13 +3,12 @@ package account;
 import loan.Loan;
 
 public class FixedDepositAccount extends Account {
-    private static double balanceInterestRate = 5;
-    private static double serviceCharge = 500;
-
-    public static final double MIN_INIT_BALANCE = 100000; 
-    private static final double MIN_DEPOSIT = 50000;
-    private static final int MIN_WITHDRAWAL_AGE = 1;
-    private static final double MAX_LOAN_AMOUNT = 100000;
+    private static double balanceInterestRate;
+    private static double serviceCharge;
+    private static double minInitBalance; 
+    private static double minDeposit;
+    private static int minWithdrawalAge;
+    private static double maxLoanAmount;
 
     private int accountAge;
 
@@ -17,9 +16,52 @@ public class FixedDepositAccount extends Account {
         if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
         FixedDepositAccount.balanceInterestRate = balanceInterestRate;
     }
+    
+    public double getBalanceInterestRate() { return balanceInterestRate; }
 
+    public static double getServiceCharge() {
+        return serviceCharge;
+    }
+
+    public static void setServiceCharge(double serviceCharge) {
+        FixedDepositAccount.serviceCharge = serviceCharge;
+    }
+
+    public static double getMinInitBalance() {
+        return minInitBalance;
+    }
+
+    public static void setMinInitBalance(double minInitBalance) {
+        FixedDepositAccount.minInitBalance = minInitBalance;
+    }
+
+    public static double getMinDeposit() {
+        return minDeposit;
+    }
+
+    public static void setMinDeposit(double minDeposit) {
+        FixedDepositAccount.minDeposit = minDeposit;
+    }
+
+    public static int getMinWithdrawalAge() {
+        return minWithdrawalAge;
+    }
+
+    public static void setMinWithdrawalAge(int minWithdrawalAge) {
+        FixedDepositAccount.minWithdrawalAge = minWithdrawalAge;
+    }
+
+    public static double getMaxLoanAmount() {
+        return maxLoanAmount;
+    }
+
+    public static void setMaxLoanAmount(double maxLoanAmount) {
+        FixedDepositAccount.maxLoanAmount = maxLoanAmount;
+    }
+    
+    
     public FixedDepositAccount(String name, double balance)throws IllegalArgumentException {
-        if(balance < MIN_INIT_BALANCE)throw new IllegalArgumentException("Balance too low");
+        if(balance < minInitBalance)throw new IllegalArgumentException("Balance too low");
         this.name = name;
         this.balance = balance;
         accountAge = 0;
@@ -36,7 +78,7 @@ public class FixedDepositAccount extends Account {
 
     @Override
     public boolean deposit(double amount)throws IllegalArgumentException{
-        if(amount < MIN_DEPOSIT)throw new IllegalArgumentException("Deposit too low");
+        if(amount < minDeposit)throw new IllegalArgumentException("Deposit too low");
         balance += amount;
         return true;
     }
@@ -44,7 +86,7 @@ public class FixedDepositAccount extends Account {
     @Override
     public boolean withdraw(double amount)throws IllegalArgumentException{
         if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
-        if(accountAge < MIN_WITHDRAWAL_AGE)return false;
+        if(accountAge < minWithdrawalAge || balance < amount)return false;
         balance -= amount;
         return true;
     }
@@ -52,13 +94,11 @@ public class FixedDepositAccount extends Account {
     @Override
     public Loan requestLoan(double amount)throws IllegalArgumentException{
         if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
-        if(amount > MAX_LOAN_AMOUNT)throw new IllegalArgumentException("Loan limit exceeded");
+        if(amount > maxLoanAmount)throw new IllegalArgumentException("Loan limit exceeded");
         else{
             return new Loan(name, amount);
-        }}
-
-    @Override
-    public double getBalanceInterestRate() { return balanceInterestRate; }
+        }
+    }
 
     public void deductServiceCharge() {
         balance -= serviceCharge;
