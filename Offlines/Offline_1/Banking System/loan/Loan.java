@@ -1,20 +1,18 @@
 package loan;
 
-enum Status {
-    PENDING,
-    APPROVED,
-    REJECTED,
-    PAID
-}
-
 public class Loan {
-    private static final double LOAN_INTEREST_RATE = 10;
+    private static double loanInterestRate;
 
     private String applicantName;
     private double amount;
     private String approverName;
     private Status status;
     private int yearsSinceApproval;
+
+    public static double getLoanInterestRate(){ return loanInterestRate; }
+    public static void setLoanInterestRate(double loanInterestRate){ 
+        Loan.loanInterestRate = loanInterestRate;
+    }
 
     public Loan(String applicantName, double amount) {
         this.applicantName = applicantName;
@@ -65,6 +63,6 @@ public class Loan {
     }
 
     public double getLoanInterest(){
-        return amount*LOAN_INTEREST_RATE/100.0;
+        return amount*loanInterestRate/100.0;
     }
 }
