@@ -1,17 +1,27 @@
 package employee;
 
+import java.lang.Exception;
 import account.Account;
+import loan.Loan;
 
-public abstract class Employee {
-    protected String name;
+public interface Employee {
+    public double lookUp(Account[] accounts,String name);
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    default String approveLoan(Loan [] loans) throws OperationNotPermittedException{
+        throw new OperationNotPermittedException("You don't have permission for this operation");
+    }
 
-    public double lookUp(Account[] accounts,String name) {
-        for (Account account : accounts) {
-            if(account.getName().equals(name))return account.queryDeposit();
-        }
-        return -1;
+    default void changeInterestRate(String accountType,double newInterestRate) throws OperationNotPermittedException{
+        throw new OperationNotPermittedException("You don't have permission for this operation");
+    }
+
+    default void seeInternalFund() throws OperationNotPermittedException{
+        throw new OperationNotPermittedException("You don't have permission for this operation");
+    }
+}
+
+class OperationNotPermittedException extends Exception {
+    public OperationNotPermittedException(String message) {
+        super(message);
     }
 }
