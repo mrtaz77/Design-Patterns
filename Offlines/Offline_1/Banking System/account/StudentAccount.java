@@ -14,6 +14,22 @@ public class StudentAccount extends Account {
 
     public double getBalanceInterestRate() { return balanceInterestRate; }
 
+    public static double getMaxWithdrawalAmount() {
+        return maxWithdrawalAmount;
+    }
+
+    public static void setMaxWithdrawalAmount(double maxWithdrawalAmount) {
+        StudentAccount.maxWithdrawalAmount = maxWithdrawalAmount;
+    }
+
+    public static double getMaxLoanAmount() {
+        return maxLoanAmount;
+    }
+
+    public static void setMaxLoanAmount(double maxLoanAmount) {
+        StudentAccount.maxLoanAmount = maxLoanAmount;
+    }
+
     public StudentAccount(String name, double balance)throws IllegalArgumentException{
         if(balance < 0)throw new IllegalArgumentException("Balance cannot be negative");
         this.name = name;
