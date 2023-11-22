@@ -1,13 +1,15 @@
 package employee;
 
 import java.lang.Exception;
+import java.util.ArrayList;
+import bank.Bank;
 import account.Account;
 import loan.Loan;
 
 public interface Employee {
-    public double lookUp(Account[] accounts,String name);
+    public double lookUp(Account account);
 
-    default String approveLoan(Loan [] loans) throws OperationNotPermittedException{
+    default void approveLoan(ArrayList<Loan> loans) throws OperationNotPermittedException{
         throw new OperationNotPermittedException("You don't have permission for this operation");
     }
 
@@ -15,7 +17,7 @@ public interface Employee {
         throw new OperationNotPermittedException("You don't have permission for this operation");
     }
 
-    default void seeInternalFund() throws OperationNotPermittedException{
+    default double seeInternalFund(Bank bank) throws OperationNotPermittedException{
         throw new OperationNotPermittedException("You don't have permission for this operation");
     }
 }
