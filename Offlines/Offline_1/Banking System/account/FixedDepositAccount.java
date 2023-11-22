@@ -65,16 +65,10 @@ public class FixedDepositAccount extends Account {
         this.name = name;
         this.balance = balance;
         accountAge = 0;
-        setType();
     }
 
     public void setAccountAge(int accountAge) { this.accountAge = accountAge; }
     public int getAccountAge() { return accountAge; }
-
-    @Override
-    public void setType() {
-        type = "Fixed deposit";    
-    }
 
     @Override
     public boolean deposit(double amount)throws IllegalArgumentException{

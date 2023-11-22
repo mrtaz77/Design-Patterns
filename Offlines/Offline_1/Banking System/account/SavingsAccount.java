@@ -43,12 +43,6 @@ public class SavingsAccount extends Account {
         if(balance < 0)throw new IllegalArgumentException("Balance cannot be negative");
         this.name = name;
         this.balance = balance;
-        setType();
-    }
-
-    @Override
-    public void setType(){
-        type = "Savings";
     }
 
     @Override
