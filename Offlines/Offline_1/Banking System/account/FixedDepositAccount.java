@@ -60,7 +60,6 @@ public class FixedDepositAccount extends Account {
     @Override
     public double getBalanceInterestRate() { return balanceInterestRate; }
 
-    @Override
     public void deductServiceCharge() {
         balance -= serviceCharge;
     }

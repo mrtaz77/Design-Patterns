@@ -57,10 +57,6 @@ public class StudentAccount extends Account {
     public double getBalanceInterestRate() { return balanceInterestRate; }
 
     @Override
-    public void deductServiceCharge() {
-    }
-
-    @Override
     public void incrementBalanceByInterest() {
         balance *= (1 + balanceInterestRate/100.0);    
     }

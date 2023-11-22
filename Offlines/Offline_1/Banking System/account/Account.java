@@ -27,6 +27,5 @@ public abstract class Account {
     public abstract boolean withdraw(double amount);
     public abstract Loan requestLoan(double amount);
     public abstract double getBalanceInterestRate();
-    public abstract void deductServiceCharge();
     public abstract void incrementBalanceByInterest();
 }
