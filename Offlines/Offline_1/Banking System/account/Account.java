@@ -3,7 +3,6 @@ package account;
 import loan.Loan;
 
 public abstract class Account {
-    private static final double LOAN_INTEREST_RATE = 10;
 
     protected String name;
     protected double balance;
@@ -17,8 +16,10 @@ public abstract class Account {
     
     public final String getType(){ return type; }
 
-    public void deductLoanInterest(){
-        balance *= (1 - LOAN_INTEREST_RATE/100.0);
+    public final void deductLoanInterest(Loan loan){
+        if(loan.getApplicantName().equals(this.name)){
+            balance -= loan.getLoanInterest();
+        }
     }
 
     public abstract void setType();

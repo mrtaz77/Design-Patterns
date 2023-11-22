@@ -8,6 +8,7 @@ enum Status {
 }
 
 public class Loan {
+    private static final double LOAN_INTEREST_RATE = 10;
 
     private String applicantName;
     private double amount;
@@ -61,5 +62,9 @@ public class Loan {
 
     public void setYearsSinceApproval(int yearsSinceApproval) {
         this.yearsSinceApproval = yearsSinceApproval;
+    }
+
+    public double getLoanInterest(){
+        return amount*LOAN_INTEREST_RATE/100.0;
     }
 }
