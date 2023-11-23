@@ -6,14 +6,11 @@ public class Loan {
     private double amount;
     private String approverName;
     private Status status;
-    private int yearsSinceApproval;
-
     public Loan(String applicantName, double amount,double loanInterestRate) {
         this.applicantName = applicantName;
         this.amount = amount;
         this.approverName = "";
         this.status = Status.PENDING;
-        this.yearsSinceApproval = -1;
         this.loanInterestRate = loanInterestRate;
     }
 
@@ -33,10 +30,6 @@ public class Loan {
         return status;
     }
 
-    public int getYearsSinceApproval() {
-        return yearsSinceApproval;
-    }
-
     public void setApplicantName(String applicantName) {
         this.applicantName = applicantName;
     }
@@ -51,10 +44,6 @@ public class Loan {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public void setYearsSinceApproval(int yearsSinceApproval) {
-        this.yearsSinceApproval = yearsSinceApproval;
     }
 
     public double getLoanInterestRate() { return loanInterestRate; }
