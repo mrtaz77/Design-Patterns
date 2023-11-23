@@ -6,6 +6,7 @@ public class Loan {
     private double amount;
     private String approverName;
     private Status status;
+    
     public Loan(String applicantName, double amount,double loanInterestRate) {
         this.applicantName = applicantName;
         this.amount = amount;
