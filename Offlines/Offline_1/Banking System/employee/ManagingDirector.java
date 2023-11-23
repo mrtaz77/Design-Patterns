@@ -50,7 +50,6 @@ public class ManagingDirector implements Employee {
         for (Loan loan : loans){
             loan.setApproverName(name);
             loan.setStatus(Status.APPROVED);
-            loan.setYearsSinceApproval(0);
         }
     }
 }
