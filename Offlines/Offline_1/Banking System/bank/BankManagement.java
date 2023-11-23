@@ -97,7 +97,7 @@ public class BankManagement {
         double studentMaxWithdrawalAmount, 
         double studentMaxLoanAmount
     ) {
-        BankInitializer.initializeFixedDepositAccount(
+        BankInitializer.initFixedDepositAccountVariables(
             fixedDepositBalanceInterestRate,
             fixedDepositServiceCharge, 
             fixedDepositMinInitBalance,
@@ -106,14 +106,14 @@ public class BankManagement {
             fixedDepositMaxLoanAmount
         );
 
-        BankInitializer.initializeSavingsAccount(
+        BankInitializer.initSavingsAccountVariables(
             savingsBalanceInterestRate, 
             savingsServiceCharge, 
             savingsMinBalanceOnWithdrawal, 
             savingsMaxLoanAmount
         );
 
-        BankInitializer.initializeStudentAccount(
+        BankInitializer.initStudentAccountVariables(
             studentBalanceInterestRate, 
             studentMaxWithdrawalAmount, 
             studentMaxLoanAmount
