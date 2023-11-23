@@ -56,11 +56,11 @@ public class StudentAccount extends Account {
     }
 
     @Override
-    public Loan requestLoan(double amount) throws IllegalArgumentException{
+    public Loan requestLoan(double amount, double loanInterestRate) throws IllegalArgumentException{
         if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
         if(amount > maxLoanAmount)throw new IllegalArgumentException("Loan limit exceeded");
         else{
-            return new Loan(name, amount);
+            return new Loan(name, amount, loanInterestRate);
         }
     }
 

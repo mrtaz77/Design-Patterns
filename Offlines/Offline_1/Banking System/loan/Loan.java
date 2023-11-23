@@ -1,25 +1,20 @@
 package loan;
 
 public class Loan {
-    private static double loanInterestRate;
-
+    private double loanInterestRate;
     private String applicantName;
     private double amount;
     private String approverName;
     private Status status;
     private int yearsSinceApproval;
 
-    public static double getLoanInterestRate(){ return loanInterestRate; }
-    public static void setLoanInterestRate(double loanInterestRate){ 
-        Loan.loanInterestRate = loanInterestRate;
-    }
-
-    public Loan(String applicantName, double amount) {
+    public Loan(String applicantName, double amount,double loanInterestRate) {
         this.applicantName = applicantName;
         this.amount = amount;
         this.approverName = "";
         this.status = Status.PENDING;
         this.yearsSinceApproval = -1;
+        this.loanInterestRate = loanInterestRate;
     }
 
     public String getApplicantName() {
@@ -60,6 +55,11 @@ public class Loan {
 
     public void setYearsSinceApproval(int yearsSinceApproval) {
         this.yearsSinceApproval = yearsSinceApproval;
+    }
+
+    public double getLoanInterestRate() { return loanInterestRate; }
+    public void setLoanInterestRate(double loanInterestRate){
+        this.loanInterestRate = loanInterestRate; 
     }
 
     public double getLoanInterest(){
