@@ -7,7 +7,7 @@ public class StudentAccount extends Account {
     private static double maxWithdrawalAmount;
     private static double maxLoanAmount;
 
-    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException{
+    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException {
         if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
         StudentAccount.balanceInterestRate = balanceInterestRate;
     }
@@ -30,38 +30,31 @@ public class StudentAccount extends Account {
         StudentAccount.maxLoanAmount = maxLoanAmount;
     }
 
-    public StudentAccount(String name, double balance)throws IllegalArgumentException{
+    public StudentAccount(String name, double balance)throws IllegalArgumentException {
         if(balance < 0)throw new IllegalArgumentException("Balance cannot be negative");
         this.name = name;
         this.balance = balance;
     }
 
     @Override
-    public boolean deposit(double amount)throws IllegalArgumentException{
+    public void deposit(double amount)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Deposit amount cannot be negative");
         balance += amount;
-        return true;
     }
 
     @Override
-    public boolean withdraw(double amount)throws IllegalArgumentException{
+    public void withdraw(double amount)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
-        if(amount > maxWithdrawalAmount || balance  < amount) {
-            return false;
-        }
-        else{
-            balance -= amount;
-            return true;
-        }
+        if(amount > maxWithdrawalAmount)throw new IllegalArgumentException("Withdrawal amount more than withdrawal limit");
+        if( balance  < amount)throw new IllegalArgumentException("Withdrawal amount more than balance");
+        balance -= amount;
     }
 
     @Override
-    public Loan requestLoan(double amount, double loanInterestRate) throws IllegalArgumentException{
+    public Loan requestLoan(double amount, double loanInterestRate) throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
         if(amount > maxLoanAmount)throw new IllegalArgumentException("Loan limit exceeded");
-        else{
-            return new Loan(name, amount, loanInterestRate);
-        }
+        return new Loan(name, amount, loanInterestRate);
     }
 
     @Override

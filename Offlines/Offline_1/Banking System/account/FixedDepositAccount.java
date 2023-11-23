@@ -12,7 +12,7 @@ public class FixedDepositAccount extends Account {
 
     private int accountAge;
 
-    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException{
+    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException {
         if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
         FixedDepositAccount.balanceInterestRate = balanceInterestRate;
     }
@@ -71,27 +71,24 @@ public class FixedDepositAccount extends Account {
     public int getAccountAge() { return accountAge; }
 
     @Override
-    public boolean deposit(double amount)throws IllegalArgumentException{
+    public void deposit(double amount)throws IllegalArgumentException {
         if(amount < minDeposit)throw new IllegalArgumentException("Deposit too low");
         balance += amount;
-        return true;
     }
 
     @Override
-    public boolean withdraw(double amount)throws IllegalArgumentException{
+    public void withdraw(double amount)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
-        if(accountAge < minWithdrawalAge || balance < amount)return false;
+        if(accountAge < minWithdrawalAge)throw new IllegalArgumentException("Withdrawal before maturity age is denied");
+        if(balance < amount)throw new IllegalArgumentException("Withdrawal amount more than balance");
         balance -= amount;
-        return true;
     }
 
     @Override
-    public Loan requestLoan(double amount,double loanInterestRate)throws IllegalArgumentException{
+    public Loan requestLoan(double amount,double loanInterestRate)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
         if(amount > maxLoanAmount)throw new IllegalArgumentException("Loan limit exceeded");
-        else{
-            return new Loan(name, amount, loanInterestRate);
-        }
+        return new Loan(name, amount, loanInterestRate);
     }
 
     public void deductServiceCharge() {
@@ -102,5 +99,4 @@ public class FixedDepositAccount extends Account {
     public void incrementBalanceByInterest() {    
         balance *= (1 + balanceInterestRate/100.0);    
     }
-    
 }

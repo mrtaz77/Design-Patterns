@@ -8,7 +8,7 @@ public class SavingsAccount extends Account {
     private static double maxLoanAmount;
     private static double minBalanceOnWithdrawal;
 
-    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException{
+    public static void setBalanceInterestRate(double balanceInterestRate)throws IllegalArgumentException {
         if(balanceInterestRate < 0)throw new IllegalArgumentException("Negative interest rate not allowed");
         SavingsAccount.balanceInterestRate = balanceInterestRate;
     }
@@ -46,29 +46,23 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public boolean deposit(double amount)throws IllegalArgumentException{
+    public void deposit(double amount)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Deposit amount cannot be negative");
         balance += amount;
-        return true;
     }
 
     @Override
-    public boolean withdraw(double amount)throws IllegalArgumentException{
+    public void withdraw(double amount)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Withdrawal amount cannot be negative");
-        if (balance - amount < minBalanceOnWithdrawal)return false;
-        else {
-            balance -= amount;
-            return true;
-        }
+        if (balance - amount < minBalanceOnWithdrawal)throw new IllegalArgumentException("Withdrawal decreases the balance below the permissible limit");
+        balance -= amount;
     }
 
     @Override
-    public Loan requestLoan(double amount, double loanInterestRate)throws IllegalArgumentException{
+    public Loan requestLoan(double amount, double loanInterestRate)throws IllegalArgumentException {
         if(amount < 0)throw new IllegalArgumentException("Loan amount cannot be negative");
         if(amount > maxLoanAmount)throw new IllegalArgumentException("Loan limit exceeded");
-        else{
-            return new Loan(name, amount, loanInterestRate);
-        }
+        return new Loan(name, amount, loanInterestRate);
     }
 
     public void deductServiceCharge() {
