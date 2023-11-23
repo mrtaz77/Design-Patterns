@@ -7,69 +7,74 @@ public class FileIO {
     private static final String INPUT_FILE = "input.txt";
     private static final String OUTPUT_FILE = "output.txt";
 
+    private static BankManagement initBankManagement() {
+        // Initialize static variables from Main
+        double fixedDepositBalanceInterestRate = 15;
+        double fixedDepositServiceCharge = 500;
+        double fixedDepositMinInitBalance = 100000;
+        double fixedDepositMinDeposit = 50000;
+        int fixedDepositMinWithdrawalAge = 1;
+        double fixedDepositMaxLoanAmount = 100000;
+
+        double loanInterestRate = 10;
+
+        double savingsBalanceInterestRate = 10;
+        double savingsServiceCharge = 500;
+        double savingsMinBalanceOnWithdrawal = 1000;
+        double savingsMaxLoanAmount = 10000;
+
+        double studentBalanceInterestRate = 5;
+        double studentMaxWithdrawalAmount = 500;
+        double studentMaxLoanAmount = 1000;
+
+        double initialFund = 100000;
+
+        int numberOfOfficers = 2;
+        int numberOfCashiers = 5;
+
+        BankManagement.initialize(
+            // Parameters for FixedDepositAccount class
+            fixedDepositBalanceInterestRate, 
+            fixedDepositServiceCharge,
+            fixedDepositMinInitBalance, 
+            fixedDepositMinDeposit,
+            fixedDepositMinWithdrawalAge, 
+            fixedDepositMaxLoanAmount,
+
+            // Parameters for SavingsAccount class
+            savingsBalanceInterestRate, 
+            savingsServiceCharge,
+            savingsMinBalanceOnWithdrawal, 
+            savingsMaxLoanAmount,
+
+            // Parameters for StudentAccount class
+            studentBalanceInterestRate, 
+            studentMaxWithdrawalAmount, 
+            studentMaxLoanAmount    
+        );
+
+        var bankManagement = new BankManagement(initialFund,loanInterestRate);
+
+        // initialize employees
+        bankManagement.createEmployee("MD", "Managing Director");
+
+        for(int i = 1; i <= numberOfCashiers; i++) {
+            bankManagement.createEmployee("C"+String.valueOf(i), "Cashier");
+        }
+
+        for(int i = 1; i <= numberOfOfficers; i++) {
+            bankManagement.createEmployee("O"+String.valueOf(i), "Officer");
+        }
+
+        return bankManagement;
+    }
 
     public static void main(String[] args) {
         try(BufferedReader in = new BufferedReader(new FileReader(INPUT_FILE))){
             BufferedWriter out = new BufferedWriter(new FileWriter(OUTPUT_FILE));
 
-            // Initialize static variables from Main
-            double fixedDepositBalanceInterestRate = 15;
-            double fixedDepositServiceCharge = 500;
-            double fixedDepositMinInitBalance = 100000;
-            double fixedDepositMinDeposit = 50000;
-            int fixedDepositMinWithdrawalAge = 1;
-            double fixedDepositMaxLoanAmount = 100000;
-
-            double loanInterestRate = 10;
-
-            double savingsBalanceInterestRate = 10;
-            double savingsServiceCharge = 500;
-            double savingsMinBalanceOnWithdrawal = 1000;
-            double savingsMaxLoanAmount = 10000;
-
-            double studentBalanceInterestRate = 5;
-            double studentMaxWithdrawalAmount = 500;
-            double studentMaxLoanAmount = 1000;
-
-            double initialFund = 100000;
-
-            int numberOfOfficers = 2;
-            int numberOfCashiers = 5;
-
-            BankManagement.initialize(
-                // Parameters for FixedDepositAccount class
-                fixedDepositBalanceInterestRate, 
-                fixedDepositServiceCharge,
-                fixedDepositMinInitBalance, 
-                fixedDepositMinDeposit,
-                fixedDepositMinWithdrawalAge, 
-                fixedDepositMaxLoanAmount,
-
-                // Parameters for SavingsAccount class
-                savingsBalanceInterestRate, 
-                savingsServiceCharge,
-                savingsMinBalanceOnWithdrawal, 
-                savingsMaxLoanAmount,
-
-                // Parameters for StudentAccount class
-                studentBalanceInterestRate, 
-                studentMaxWithdrawalAmount, 
-                studentMaxLoanAmount    
-            );
-
-            var bankManagement = new BankManagement(initialFund,loanInterestRate);
-
-            // initialize employees
-            bankManagement.createEmployee("MD", "Managing Director");
-
-            for(int i = 1; i <= numberOfCashiers; i++) {
-                bankManagement.createEmployee("C"+String.valueOf(i), "Cashier");
-            }
-
-            for(int i = 1; i <= numberOfOfficers; i++) {
-                bankManagement.createEmployee("O"+String.valueOf(i), "Officer");
-            }
-
+            var bankManagement = initBankManagement();
+            
             out.write("Bank Created; MD, O1, O2, C1, C2, C3, C4, C5 created\n");
             
             while(true){
