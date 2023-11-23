@@ -71,6 +71,12 @@ public class BankManagement {
         }
     }
 
+    private void incrementBalanceOnApprovalOfLoan(Loan loan) {
+        Account account = accounts.get(loan.getApplicantName());
+        double balance = account.queryDeposit();
+        account.setBalance(balance + loan.getAmount());
+    }
+    
     public static void initialize(
         // Parameters for FixedDepositAccount class
         double fixedDepositBalanceInterestRate, 
@@ -248,10 +254,22 @@ public class BankManagement {
         if(pendingLoanUserNames.length() == 0)return "No pending loans";
         
         if(employee instanceof ManagingDirector){
-            ((ManagingDirector) employee).approveLoan(loans);
+            for(Loan loan : loans){
+                if(loan.getStatus() == Status.PENDING){
+                    ((ManagingDirector) employee).approveLoan(loan);
+                    incrementBalanceOnApprovalOfLoan(loan);
+                    bank.setInternalFund(bank.getInternalFund() - loan.getAmount());
+                }
+            }
         }
         else if(employee instanceof Officer){
-            ((Officer) employee).approveLoan(loans);
+            for(Loan loan : loans){
+                if(loan.getStatus() == Status.PENDING){
+                    ((Officer) employee).approveLoan(loan);
+                    incrementBalanceOnApprovalOfLoan(loan);
+                    bank.setInternalFund(bank.getInternalFund() - loan.getAmount());
+                }
+            }
         }
         else{
             return "You don't have permission for this operation";
@@ -265,5 +283,18 @@ public class BankManagement {
         if(account == null)throw new IllegalArgumentException("Account not found");
         loans.add(account.requestLoan(amount, bank.getLoanInterestRate()));
         return "Loan request successful, sent for approval";
+    }
+
+    public String see(String employeeName){
+        Employee employee = getEmployeeByName(employeeName);
+        if(employee == null)return "Employee not found";
+        
+        if(employee instanceof ManagingDirector){
+            double fund = ((ManagingDirector) employee).seeInternalFund(bank);
+            return "Internal fund: " + fund;
+        }
+        else{
+            return "You don't have permission for this operation";
+        }
     }
 }

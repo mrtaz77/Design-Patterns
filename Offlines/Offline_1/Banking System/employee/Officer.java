@@ -1,7 +1,5 @@
 package employee;
 
-import java.util.ArrayList;
-
 import account.Account;
 import loan.*;
 
@@ -25,10 +23,8 @@ public class Officer implements Employee{
         return account.queryDeposit();
     }
 
-    public void approveLoan(ArrayList<Loan> loans){
-        for (Loan loan : loans){
-            loan.setApproverName(name);
-            loan.setStatus(Status.APPROVED);
-        }
+    public void approveLoan(Loan loan){
+        loan.setApproverName(name);
+        loan.setStatus(Status.APPROVED);
     }
 }

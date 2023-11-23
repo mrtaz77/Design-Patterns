@@ -1,7 +1,5 @@
 package employee;
 
-import java.util.ArrayList;
-
 import account.*;
 import bank.Bank;
 import loan.*;
@@ -42,14 +40,12 @@ public class ManagingDirector implements Employee {
         }
     }
 
-    public double seeInternalFunds(Bank bank){
+    public double seeInternalFund(Bank bank){
         return bank.getInternalFund();
     }
 
-    public void approveLoan(ArrayList<Loan> loans){
-        for (Loan loan : loans){
-            loan.setApproverName(name);
-            loan.setStatus(Status.APPROVED);
-        }
+    public void approveLoan(Loan loan){
+        loan.setApproverName(name);
+        loan.setStatus(Status.APPROVED);    
     }
 }
