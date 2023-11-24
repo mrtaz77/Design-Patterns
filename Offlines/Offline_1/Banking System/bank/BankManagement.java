@@ -97,7 +97,7 @@ public class BankManagement {
         double studentMaxWithdrawalAmount, 
         double studentMaxLoanAmount
     ) {
-        BankInitializer.initFixedDepositAccountVariables(
+        AccountsInitializer.initFixedDepositVariables(
             fixedDepositBalanceInterestRate,
             fixedDepositServiceCharge, 
             fixedDepositMinInitBalance,
@@ -106,14 +106,14 @@ public class BankManagement {
             fixedDepositMaxLoanAmount
         );
 
-        BankInitializer.initSavingsAccountVariables(
+        AccountsInitializer.initSavingsVariables(
             savingsBalanceInterestRate, 
             savingsServiceCharge, 
             savingsMinBalanceOnWithdrawal, 
             savingsMaxLoanAmount
         );
 
-        BankInitializer.initStudentAccountVariables(
+        AccountsInitializer.initStudentVariables(
             studentBalanceInterestRate, 
             studentMaxWithdrawalAmount, 
             studentMaxLoanAmount
@@ -144,7 +144,7 @@ public class BankManagement {
     public void createAccount(String name, double initBalance, String type)throws IllegalArgumentException{
         if(canCreateAccount(name, initBalance, type)){
             switch(type){
-                case "Fixed Deposit" -> accounts.put(name, new FixedDepositAccount(name, initBalance));
+                case "FixedDeposit" -> accounts.put(name, new FixedDepositAccount(name, initBalance));
                 case "Student" -> accounts.put(name, new StudentAccount(name, initBalance));
                 case "Savings" -> accounts.put(name, new SavingsAccount(name, initBalance));
                 default -> throw new IllegalArgumentException("Invalid Account Type");

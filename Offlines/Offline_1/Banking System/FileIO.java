@@ -27,7 +27,7 @@ public class FileIO {
         double studentMaxWithdrawalAmount = 500;
         double studentMaxLoanAmount = 1000;
 
-        double initialFund = 100000;
+        double initialFund = 1000000;
 
         int numberOfOfficers = 2;
         int numberOfCashiers = 5;

@@ -2,9 +2,9 @@ package bank;
 
 import account.*;
 
-class BankInitializer {
+class AccountsInitializer {
     // static variables of FixedDepositAccount class
-    static void initFixedDepositAccountVariables(
+    static void initFixedDepositVariables(
         double balanceInterestRate, 
         double serviceCharge, 
         double minInitBalance,
@@ -20,7 +20,7 @@ class BankInitializer {
         FixedDepositAccount.setMaxLoanAmount(maxLoanAmount);
     }
 
-    static void initSavingsAccountVariables(
+    static void initSavingsVariables(
         double balanceInterestRate,
         double serviceCharge,
         double minBalanceOnWithdrawal,
@@ -32,7 +32,7 @@ class BankInitializer {
         SavingsAccount.setMaxLoanAmount(maxLoanAmount);
     }
 
-    static void initStudentAccountVariables(
+    static void initStudentVariables(
         double balanceInterestRate, 
         double maxWithdrawalAmount, 
         double maxLoanAmount
