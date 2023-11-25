@@ -14,7 +14,7 @@ Close
 INC
 Open MD
 Approve Loans
-Lookup OromMoneHoye
+Lookup Arpita
 See
 Close
 INC
