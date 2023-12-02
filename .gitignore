@@ -2,7 +2,10 @@
 *.class
 .lh
 .vscode
-Classes
+Classes/
+*.zip
+2005020/
+
 # Log file
 *.log
 
