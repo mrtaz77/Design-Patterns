@@ -1,4 +1,4 @@
-package ingredients.flavour;
+package flavour;
 
 public class Vanilla implements Flavour {
 

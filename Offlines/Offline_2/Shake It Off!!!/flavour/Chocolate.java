@@ -1,4 +1,4 @@
-package ingredients.flavour;
+package flavour;
 
 public class Chocolate implements Flavour {
 
