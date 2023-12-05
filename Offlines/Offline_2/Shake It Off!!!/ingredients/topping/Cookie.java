@@ -7,7 +7,7 @@ public class Cookie implements Topping {
     }
 
     @Override
-    public String topping() {
+    public String name() {
         return "Cookie";    
     }
 }

@@ -4,7 +4,7 @@ import flavourful.Vanilla;
 
 public class Vanillaflavoring implements Flavouring, Vanilla {
     @Override
-    public String flavouring() {
+    public String name() {
         return "Vanilla flavouring";    
     }
 }

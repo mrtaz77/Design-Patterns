@@ -7,7 +7,7 @@ public class RegularMilk implements Milk {
     }
 
     @Override
-    public String milk() {
+    public String name() {
         return "Milk";    
     }    
 }

@@ -1,5 +1,6 @@
 package ingredients.icecream;
 
-public interface IceCream {
-    public String iceCream();
+import ingredients.Ingredient;
+
+public interface IceCream extends Ingredient{
 }

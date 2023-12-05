@@ -1,5 +1,6 @@
 package ingredients.sweet;
 
-public interface Sweet {
-    public String sweet();
+import ingredients.Ingredient;
+
+public interface Sweet extends Ingredient {
 }   

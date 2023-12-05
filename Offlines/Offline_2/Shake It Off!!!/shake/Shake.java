@@ -1,5 +1,5 @@
 package shake;
 
-public interface Shake {
-    public double price();
+public class Shake{
+
 }

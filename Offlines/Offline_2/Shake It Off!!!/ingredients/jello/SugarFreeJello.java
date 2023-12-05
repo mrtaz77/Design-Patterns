@@ -2,7 +2,7 @@ package ingredients.jello;
 
 public class SugarFreeJello implements Jello {
     @Override
-    public String jello(){
+    public String name(){
         return "Sugar-free jello";
     }
 }

@@ -4,7 +4,7 @@ import flavourful.Strawberry;
 
 public class StrawberrySyrup implements Syrup, Strawberry{
     @Override
-    public String syrup() {
+    public String name() {
         return "Strawberry syrup";    
     }
 }

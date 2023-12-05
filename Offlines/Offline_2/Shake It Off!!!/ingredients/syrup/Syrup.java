@@ -1,5 +1,6 @@
 package ingredients.syrup;
 
-public interface Syrup {
-    public String syrup();
+import ingredients.Ingredient;
+
+public interface Syrup extends Ingredient {
 }

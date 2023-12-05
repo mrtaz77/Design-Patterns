@@ -9,7 +9,7 @@ public class AlmondMilk implements Milk, Priced{
     }
 
     @Override
-    public String milk() {
+    public String name() {
         return "Almond Milk";    
     }
 

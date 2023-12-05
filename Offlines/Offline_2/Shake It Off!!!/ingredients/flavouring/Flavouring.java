@@ -1,5 +1,6 @@
 package ingredients.flavouring;
 
-public interface Flavouring{
-    public String flavouring();
+import ingredients.Ingredient;
+
+public interface Flavouring extends Ingredient{
 }   

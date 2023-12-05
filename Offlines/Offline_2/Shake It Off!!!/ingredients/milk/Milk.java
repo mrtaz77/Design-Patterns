@@ -1,6 +1,7 @@
 package ingredients.milk;
 
-public interface Milk {
+import ingredients.Ingredient;
+
+public interface Milk extends Ingredient {
     public boolean isLactoseFree();
-    public String milk();
 }

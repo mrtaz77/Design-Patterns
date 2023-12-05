@@ -7,7 +7,7 @@ public class Candy implements Topping {
     }
     
     @Override
-    public String topping() {
+    public String name() {
         return "Candy";
     }
 }
