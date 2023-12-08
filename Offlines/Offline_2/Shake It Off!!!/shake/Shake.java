@@ -8,9 +8,9 @@ import priced.Priced;
 public class Shake implements Priced{
     private final ShakeType type;
     private final double basePrice;
-    private double extraPrice;
+    private final double extraPrice;
     private final List<Ingredient> baseIngredients;
-    private List<Ingredient> extraIngredients;
+    private final List<Ingredient> extraIngredients;
 
     public Shake(ShakeType type, double basePrice, double extraPrice,List<Ingredient> baseIngredients, List<Ingredient> extraIngredients) {
         this.type = type;
@@ -40,14 +40,6 @@ public class Shake implements Priced{
         return extraIngredients;
     }
 
-    public void setExtraPrice(double extraPrice) {
-        this.extraPrice = extraPrice;
-    }
-
-    public void setExtraIngredients(List<Ingredient> extraIngredients) {
-        this.extraIngredients = extraIngredients;
-    }
-
     @Override
     public double price() {
         return basePrice + extraPrice;    
@@ -58,14 +50,18 @@ public class Shake implements Priced{
         var shake = new StringBuilder();
         shake.append(type.name()).append(" shake\n");
 
+        shake.append("-----------------\n");
         shake.append("Basic Ingredients\n");
+        shake.append("-----------------\n");
 
         for(Ingredient ingredient : baseIngredients){
             shake.append(ingredient.name()).append("\n");
         }
 
         if(extraIngredients.size() > 0){
+            shake.append("-----------------\n");
             shake.append("Added Ingredients\n");
+            shake.append("-----------------\n");
 
             for(Ingredient ingredient : extraIngredients){
                 shake.append(ingredient.name()).append(" : ").append(((Priced)ingredient).price()).append("\n");
