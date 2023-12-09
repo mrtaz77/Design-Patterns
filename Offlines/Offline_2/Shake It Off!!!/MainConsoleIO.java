@@ -63,7 +63,7 @@ public class MainConsoleIO {
                     if(!isOpen){
                         System.out.println("No order is open now.");
                     }else if(orders.size() == 0){
-                        System.out.println("A shake must be ordered before closing current order");
+                        System.out.println("At least one shake must be ordered before closing current order");
                     }else {
                         System.out.println("Order:");
                         for(int i = 0; i < orders.size(); i ++){
@@ -133,14 +133,15 @@ public class MainConsoleIO {
                         }
                         
                         orders.add(maker.getShake());
-                        System.out.println("Order placed successfully.");
+                        System.out.println("Added to current order.");
                     } else {
                         System.out.println("Cannot add a shake. Open an order first.");
                     }
                     break;
                 case 'q':
                     if(isOpen){
-                        System.out.println("Please close current order");
+                        System.out.println("Please close the current order");
+                        choice = ' ';
                     }else{
                         System.out.println("Thank you, have a good day !!!");
                         scanner.close();
