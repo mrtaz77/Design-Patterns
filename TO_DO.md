@@ -1,2 +1,3 @@
 # To-Do list
-- [] Complete Employee
+- [x] Jello and Milk are confusing
+- [ ] Complete Shake class

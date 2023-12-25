@@ -2,6 +2,7 @@ package storage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -13,8 +14,25 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 		components.clear();
 	}
 
+	private String getFilePath(){
+		if(getDirectory().isEmpty())return getName();
+		String file_path = getDirectory();
+		if(!file_path.endsWith("\\"))file_path += "\\";
+		return file_path + getName();
+	}
+
 	public CompoundStorage(String name, String directory) {
 		super(name, 0, directory);
+	}
+
+	@Override
+	public double getSize() {
+		double totalSize = 0;
+		
+        Enumeration<Storable> values = components.elements();
+        while (values.hasMoreElements()) totalSize += values.nextElement().getSize();
+
+        return totalSize;
 	}
 
 	@Override
@@ -24,13 +42,13 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 
 	public void touch(String name, double size) {
 		notInCurrentDirectory(components,name);
-		components.put(name, new File(name, size, getDirectory() + "\\" + name));
-		setSize(getSize() + size);
+		
+		components.put(name, new File(name, size, getFilePath()));
 	}
 
-	public void makeDir(String name) {
+	public void mkDir(String name) {
 		notInCurrentDirectory(components, name);
-		components.put(name, new Folder(name, getDirectory() + "\\" + name));
+		components.put(name, new Folder(name, getFilePath()));
 	}
 
 	public void delete(String name) {
@@ -66,7 +84,7 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 			String formattedCreationTime = creationTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 			String formattedSize = String.format("%.2f", size).replaceAll("\\.0+$", "");
 
-			output.append(String.format("%-20s%-10s kB%-20s%n", name, formattedSize, formattedCreationTime));
+			output.append(String.format("%-16s%8s kB%25s%n", name, formattedSize, formattedCreationTime));
 		}
 
 		return output.toString();
@@ -81,5 +99,19 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 		else {
 			return (CompoundStorage) component;
 		}
+	}
+
+	public String ls(String name) {
+		Storable component = getComponent(components, name);
+		StringBuilder out = new StringBuilder();
+
+		out.append("Name: ").append(component.getName()).append("\n");
+		out.append("Type: ").append(component.getType().name()).append("\n");
+		out.append("Size: ").append(String.format("%.2f", component.getSize()).replaceAll("\\.0+$", "")).append(" kB\n");
+		out.append("Directory: ").append("\"").append(component.getDirectory()).append("\"").append("\n");
+		out.append("Component Count: ").append(component.getComponentCount()).append("\n");
+		out.append("Creation Time: ").append(component.getCreationTime().format(DateTimeFormatter.ofPattern("dd MMMM, yyyy h:mm a"))).append("\n");
+
+		return out.toString();
 	}
 }

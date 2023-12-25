@@ -21,8 +21,9 @@ public class RootDirectory extends CompoundStorage {
 	}
 
 	public void mkDrive(String name) {
+		name += ":\\";
 		notInCurrentDirectory(instance.components, name);
-		instance.components.put(name + ":", new Drive(name, ""));
+		instance.components.put(name, new Drive(name, ""));
 	}
 }
 
