@@ -10,10 +10,6 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 
 	protected Hashtable<String, Storable> components = new Hashtable<>();
 
-	private void deleteAllComponents() {
-		components.clear();
-	}
-
 	private String getFilePath(){
 		if(getDirectory().isEmpty())return getName();
 		String file_path = getDirectory();
@@ -42,7 +38,6 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 
 	public void touch(String name, double size) {
 		notInCurrentDirectory(components,name);
-		
 		components.put(name, new File(name, size, getFilePath()));
 	}
 
@@ -53,23 +48,24 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 
 	public void delete(String name) {
 		Storable component = getComponent(components, name);
-		if(component instanceof File)components.remove(name);
-		else {
-			if(component.getSize() == 0)components.remove(name);
-			else throw new IllegalArgumentException(name + " is not empty\n");
-		}
+		if(component instanceof File || component.getSize() == 0)components.remove(name);
+		else throw new IllegalArgumentException(name + " is not empty");
 	}
 	
 	public void deleteRecursive(String name) {
 		Storable component = getComponent(components, name);
 		if(component instanceof File) {
-			System.out.println("Warning : Deleting file "+name+" permanently...\n");
-			components.remove(name);
+			System.out.println("Warning : Deleting file " + name + " permanently...");
 		}
 		else {
-			((CompoundStorage) component).deleteAllComponents();
-			components.remove(name);
+			Enumeration<Storable> entries = ((CompoundStorage) component).components.elements();
+			while (entries.hasMoreElements()) {
+				Storable entry = entries.nextElement();
+				((CompoundStorage) component).deleteRecursive(entry.getName());
+			}
+			System.out.println("Warning : Deleting directory " + name + " permanently...");
 		}
+		components.remove(name);
 	}
 
 	public String list() {
@@ -94,7 +90,7 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 		if(name.equals("~"))return RootDirectory.getRootDirectory();
 		Storable component = getComponent(components, name);
 		if(component instanceof File) {
-			throw new IllegalArgumentException(name + " is not a directory\n");
+			throw new IllegalArgumentException(name + " is not a directory");
 		}
 		else {
 			return (CompoundStorage) component;

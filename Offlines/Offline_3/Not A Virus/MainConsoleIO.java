@@ -11,7 +11,7 @@ public class MainConsoleIO {
 		currentDir = RootDirectory.getRootDirectory();
 	}
 
-	 public static void main(String[] args) {
+	public static void main(String[] args) {
         init();
 
 		try (Scanner scanner = new Scanner(System.in)) {
@@ -20,9 +20,13 @@ public class MainConsoleIO {
 				String file_path = currentDir.getDirectory();
 				if(!file_path.endsWith("\\") && file_path != "" )file_path += "\\";
 				System.out.print(file_path + currentDir.getName() + "> ");
+
 				command = scanner.nextLine();
-				System.out.println();
+				
+				// System.out.println();
 				executeCommand(command);
+				// System.out.println();
+
 				if(command.equals("q"))break;
 			}
 		} catch (Exception e) {
@@ -73,14 +77,14 @@ public class MainConsoleIO {
 						System.out.println("Wrong number of arguments for list. Usage: list");
 						break;
 					}
-					System.out.println(currentDir.list());
+					System.out.print(currentDir.list());
 					break;
 				case "ls":
 					if (tokens.length != 2) {
 						System.out.println("Wrong number of arguments for ls. Usage: ls <directoryName>");
 						break;
 					}
-					System.out.println(currentDir.ls(tokens[1]));
+					System.out.print(currentDir.ls(tokens[1]));
 					break;
 				case "delete":
 					if (tokens.length < 2 || tokens.length > 3) {
@@ -102,7 +106,7 @@ public class MainConsoleIO {
 					System.out.flush();
 					break;
 				case "q":
-					System.out.println("Killing terminal...\n");
+					System.out.println("Closing terminal...");
 					break;
 				default:
 					System.out.println("Invalid command.");
