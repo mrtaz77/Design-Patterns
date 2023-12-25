@@ -9,3 +9,7 @@ A chronicle of various design patterns implemented under software engineering co
 
  **Creational Design Pattern**
  - [Specification](/Offlines/Offline_2/CSE308Offline2.pdf)
+ - [Solution](/Offlines/Offline_2/Shake%20It%20Off!!!/) : `Shake It Off!!! : Builder pattern`
+
+ **Structural Design Pattern**
+ - [Specification](/Offlines/Offline_3/CSE308_Structural_Design_Pattern.pdf)
