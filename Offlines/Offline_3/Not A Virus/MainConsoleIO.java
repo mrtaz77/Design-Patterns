@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 import storage.CompoundStorage;
+import storage.FileFolderCreatable;
 import storage.RootDirectory;
 
 public class MainConsoleIO {
@@ -20,13 +21,8 @@ public class MainConsoleIO {
 				String file_path = currentDir.getDirectory();
 				if(!file_path.endsWith("\\") && file_path != "" )file_path += "\\";
 				System.out.print(file_path + currentDir.getName() + "> ");
-
 				command = scanner.nextLine();
-				
-				// System.out.println();
 				executeCommand(command);
-				// System.out.println();
-
 				if(command.equals("q"))break;
 			}
 		} catch (Exception e) {
@@ -43,9 +39,8 @@ public class MainConsoleIO {
 				case "mkdrive":
 					if (tokens.length != 2) {
 						System.out.println("Wrong number of arguments for mkdrive. Usage: mkdrive <driveName>");
-						break;
 					}
-					if (currentDir instanceof RootDirectory) {
+					else if (currentDir instanceof RootDirectory) {
 						((RootDirectory) currentDir).mkDrive(tokens[1]);
 					} else {
 						System.out.println("Cannot create drive in the current directory");
@@ -54,56 +49,58 @@ public class MainConsoleIO {
 				case "cd":
 					if (tokens.length != 2) {
 						System.out.println("Wrong number of arguments for cd. Usage: cd <directoryName>");
-						break;
 					}
-					currentDir = currentDir.cd(tokens[1]);
+					else currentDir = currentDir.cd(tokens[1]);
 					break;
 				case "mkdir":
 					if (tokens.length != 2) {
 						System.out.println("Wrong number of arguments for mkdir. Usage: mkdir <folderName>");
-						break;
 					}
-					currentDir.mkDir(tokens[1]);
+					else if(currentDir instanceof RootDirectory) {
+						System.out.println("Cannot create folder in root directory");
+					}
+					else ((FileFolderCreatable) currentDir).mkdir(tokens[1]);
 					break;
 				case "touch":
 					if (tokens.length != 3) {
 						System.out.println("Wrong number of arguments for touch. Usage: touch <fileName> <fileSize>");
 						break;
 					}
-					currentDir.touch(tokens[1], Double.parseDouble(tokens[2]));
+					if(currentDir instanceof RootDirectory) {
+						System.out.println("Cannot create file in root directory");
+					}
+					else ((FileFolderCreatable) currentDir).touch(tokens[1], Double.parseDouble(tokens[2]));
 					break;
 				case "list":
 					if (tokens.length != 1) {
 						System.out.println("Wrong number of arguments for list. Usage: list");
-						break;
 					}
-					System.out.print(currentDir.list());
+					else System.out.print(currentDir.list());
 					break;
 				case "ls":
 					if (tokens.length != 2) {
 						System.out.println("Wrong number of arguments for ls. Usage: ls <directoryName>");
-						break;
 					}
-					System.out.print(currentDir.ls(tokens[1]));
+					else System.out.print(currentDir.ls(tokens[1]));
 					break;
 				case "delete":
 					if (tokens.length < 2 || tokens.length > 3) {
 						System.out.println("Wrong number of arguments for delete. Usage: delete <fileName> or delete -r <directoryName>");
-						break;
 					}
-					if (!tokens[1].equals("-r")) {
+					else if (!tokens[1].equals("-r")) {
 						currentDir.delete(tokens[1]);
 					} else {
 						currentDir.deleteRecursive(tokens[2]);
 					}
 					break;
-				case "cls":
+				case "clear":
 					if (tokens.length != 1) {
-						System.out.println("Wrong number of arguments for cls. Usage: cls");
-						break;
+						System.out.println("Wrong number of arguments for clear. Usage: clear");
 					}
-					System.out.print("\033c");
-					System.out.flush();
+					else {
+						System.out.print("\033c");
+						System.out.flush();
+					}
 					break;
 				case "q":
 					System.out.println("Closing terminal...");

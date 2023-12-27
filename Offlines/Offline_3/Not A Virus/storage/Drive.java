@@ -1,6 +1,6 @@
 package storage;
 
-public class Drive extends CompoundStorage {
+public class Drive extends FileFolderCreatable {
 
 	public Drive(String name, String directory) {
 		super(name, directory);

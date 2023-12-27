@@ -10,13 +10,6 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 
 	protected Hashtable<String, Storable> components = new Hashtable<>();
 
-	private String getFilePath(){
-		if(getDirectory().isEmpty())return getName();
-		String file_path = getDirectory();
-		if(!file_path.endsWith("\\"))file_path += "\\";
-		return file_path + getName();
-	}
-
 	public CompoundStorage(String name, String directory) {
 		super(name, 0, directory);
 	}
@@ -36,16 +29,6 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 		return components.size();
 	}
 
-	public void touch(String name, double size) {
-		notInCurrentDirectory(components,name);
-		components.put(name, new File(name, size, getFilePath()));
-	}
-
-	public void mkDir(String name) {
-		notInCurrentDirectory(components, name);
-		components.put(name, new Folder(name, getFilePath()));
-	}
-
 	public void delete(String name) {
 		Storable component = getComponent(components, name);
 		if(component instanceof File || component.getSize() == 0)components.remove(name);
@@ -54,17 +37,14 @@ public abstract class CompoundStorage extends BaseStorage implements InputValida
 	
 	public void deleteRecursive(String name) {
 		Storable component = getComponent(components, name);
-		if(component instanceof File) {
-			System.out.println("Warning : Deleting file " + name + " permanently...");
-		}
-		else {
+		if(!(component instanceof File)) {
 			Enumeration<Storable> entries = ((CompoundStorage) component).components.elements();
 			while (entries.hasMoreElements()) {
 				Storable entry = entries.nextElement();
 				((CompoundStorage) component).deleteRecursive(entry.getName());
 			}
-			System.out.println("Warning : Deleting directory " + name + " permanently...");
 		}
+		System.out.println("Warning : Deleting "+ component.getType().name().toLowerCase() + " " + name + " permanently...");
 		components.remove(name);
 	}
 
