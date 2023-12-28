@@ -12,15 +12,19 @@ public class MainConsoleIO {
 		currentDir = RootDirectory.getRootDirectory();
 	}
 
+	private static void displayCurrentDirectory() {
+		String file_path = currentDir.getDirectory();
+		if(!file_path.endsWith("\\") && file_path != "" )file_path += "\\";
+		System.out.print(file_path + currentDir.getName() + "> ");
+	}
+
 	public static void main(String[] args) {
         init();
 
 		try (Scanner scanner = new Scanner(System.in)) {
 			String command = "";
 			while (true) {
-				String file_path = currentDir.getDirectory();
-				if(!file_path.endsWith("\\") && file_path != "" )file_path += "\\";
-				System.out.print(file_path + currentDir.getName() + "> ");
+				displayCurrentDirectory();
 				command = scanner.nextLine();
 				executeCommand(command);
 				if(command.equals("q"))break;

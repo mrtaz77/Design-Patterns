@@ -13,3 +13,9 @@ A chronicle of various design patterns implemented under software engineering co
 
  **Structural Design Pattern**
  - [Specification](/Offlines/Offline_3/CSE308_Structural_Design_Pattern.pdf)
+ - Problem-I
+	- [UML Diagram](/Offlines/Offline_3/Among%20Us/Among%20Us.pdf)
+	- [Solution](/Offlines/Offline_3/Among%20Us/) : `Among Us : Adapter pattern`
+ - Problem-II
+	- [UML Diagram](/Offlines/Offline_3/Not%20A%20Virus/Not%20A%20Virus.pdf)
+	- [Solution-II](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus : Composite pattern`
