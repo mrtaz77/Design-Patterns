@@ -4,8 +4,6 @@ public class Crewmate {
 	
 	private String name;
 
-	public Crewmate() {}
-
 	public Crewmate(String name) {
 		this.name = name;
 	}
