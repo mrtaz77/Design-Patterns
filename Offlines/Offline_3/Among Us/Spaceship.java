@@ -10,7 +10,7 @@ public class Spaceship {
 	private static boolean isLoggedIn , quit;
 
 	private static void init() {
-		System.out.println("Welcome to the Skeld !!! Login to access...");
+		System.out.println("Welcome to the Skeld !!!\nLogin to access...");
 		isLoggedIn = false;
 		quit = false;
 	}

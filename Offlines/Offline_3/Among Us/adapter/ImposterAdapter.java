@@ -14,7 +14,7 @@ public class ImposterAdapter extends Crewmate {
 	@Override
 	public void login() {
 		super.login();
-		imposter.login();
+		System.out.println("We won't tell anyone; you are an imposter.");
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class ImposterAdapter extends Crewmate {
 	@Override
 	public void logout() {
 		super.logout();
-		imposter.logout();
+		System.out.println("See you again Comrade Imposter.");
 	} 
 
 }
