@@ -19,6 +19,18 @@ public class Spaceship {
 		System.out.println("Invalid number of arguments for command: " + command);
 	}
 
+	private static void login(Crewmate passenger) {
+		System.out.println("Welcome Crewmate!");
+		if(passenger instanceof ImposterAdapter) System.out.println("We won't tell anyone; you are an imposter.");
+		isLoggedIn = true;
+	}
+
+	private static void logout(Crewmate passenger) {
+		System.out.println("Bye Bye crewmate.");
+		if(passenger instanceof ImposterAdapter) System.out.println("See you again Comrade Imposter.");
+		isLoggedIn = false;
+	}
+
 	public static void main(String[] args) {
 		init();
 
@@ -60,9 +72,7 @@ public class Spaceship {
 						Imposter imp = new Imposter(roleToken);
 						passenger = new ImposterAdapter(imp);
 					}
-			
-					passenger.login();
-					isLoggedIn = true;
+					login(passenger);
 				} else {
 					System.out.println("Invalid login.");
 				}
@@ -89,9 +99,8 @@ public class Spaceship {
 				if (tokens.length != 1) {
 					invalidArguments(command);
 				} else if (isLoggedIn) {
-					passenger.logout();
+					logout(passenger);
 					passenger = null;
-					isLoggedIn = false;
 				} else {
 					System.out.println("Not logged in.");
 				}
