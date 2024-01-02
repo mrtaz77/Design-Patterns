@@ -8,7 +8,6 @@ public class Imposter {
 	}
 
 	public String getName() { return name; }
-	public void setName(String name) { this.name = name; }
 
 	public void damage() {
 		System.out.println("Damaging the spaceship.");
