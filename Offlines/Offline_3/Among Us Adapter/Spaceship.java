@@ -59,7 +59,7 @@ public class Spaceship {
 				}
 			
 				if (isLoggedIn) {
-					System.out.println(passenger.name() + " is already logged in.");
+					System.out.println(passenger.getName() + " is already logged in.");
 					break;
 				}
 			
