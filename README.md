@@ -9,17 +9,19 @@ A chronicle of various design patterns implemented under software engineering co
 
  **Creational Design Pattern**
  - [Specification](/Offlines/Offline_2/CSE308Offline2.pdf)
- - [Solution](/Offlines/Offline_2/Shake%20It%20Off!!!/) : `Shake It Off!!! : Builder pattern`
+ - [Solution](/Offlines/Offline_2/Shake%20It%20Off!!!/) : `Shake It Off!!!` **Builder pattern**
 
  **Structural Design Pattern**
  - [Specification](/Offlines/Offline_3/CSE308_Structural_Design_Pattern.pdf)
  - Problem-I
-	- Soltution : `Among Us`
+	- Solution : `Among Us`
 		- **Adapter Pattern**
 			- [UML Diagram](/Offlines/Offline_3/Among%20Us%20Adapter/Among%20Us%20Adapter.pdf)
 			- [Solution](/Offlines/Offline_3/Among%20Us%20Adapter/)
 		- **Decorator Pattern**
+			- [UML Diagram](/Offlines/Offline_3/Among%20Us%20Decorator/Among%20Us%20Decorator.pdf)
+			- [Solution](/Offlines/Offline_3/Among%20Us%20Decorator/)
 			
  - Problem-II
 	- [UML Diagram](/Offlines/Offline_3/Not%20A%20Virus/Not%20A%20Virus.pdf)
-	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus : Composite pattern`
+	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus` **Composite pattern**
