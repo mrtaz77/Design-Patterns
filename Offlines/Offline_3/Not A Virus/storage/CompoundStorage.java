@@ -6,6 +6,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 
+// https://refactoring.guru/design-patterns/composite/java/example
+
 public abstract class CompoundStorage extends BaseStorage implements InputValidator {
 
 	protected Hashtable<String, Storable> components = new Hashtable<>();
