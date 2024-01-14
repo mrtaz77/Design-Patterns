@@ -21,7 +21,12 @@ A chronicle of various design patterns implemented under software engineering co
 		- **Decorator Pattern**
 			- [UML Diagram](/Offlines/Offline_3/Among%20Us%20Decorator/Among%20Us%20Decorator.pdf)
 			- [Solution](/Offlines/Offline_3/Among%20Us%20Decorator/)
+		
+		*In the end, adapter pattern was the appropriate pattern.\
+		But, due to the ambiguity of __Hint #2__ of spec, both patterns\
+		were deemed to be correct.*
 			
  - Problem-II
 	- [UML Diagram](/Offlines/Offline_3/Not%20A%20Virus/Not%20A%20Virus.pdf)
-	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus` **Composite pattern**
+	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus` **Composite pattern**\
+	*Got bonus for using singleton pattern in root :relaxed:*
