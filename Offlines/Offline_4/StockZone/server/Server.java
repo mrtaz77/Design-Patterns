@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import stock.Stock;
@@ -12,11 +13,10 @@ import util.SocketWrapper;
 public class Server {
 
     private static final String INPUT_FILE_NAME = "init_stocks.txt";
-	private static final String PASSWORD_FILE_NAME = "init_passwords.txt";
+	private static final String PASSWORD_FILE_NAME = "init_subscribers.txt";
 
 	private ConcurrentHashMap<String, Stock> stockTable = new ConcurrentHashMap<>();
-	private ConcurrentHashMap<String, String> passwordTable = new ConcurrentHashMap<>();
-	private ConcurrentHashMap<String, String> stockUserTable = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
 
 	protected ServerSocket serverSocket;
     private ConcurrentHashMap<String, SocketWrapper> network = new ConcurrentHashMap<>();
