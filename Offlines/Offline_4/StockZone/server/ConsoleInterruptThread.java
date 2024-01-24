@@ -42,7 +42,7 @@ public class ConsoleInterruptThread implements Runnable {
 
 	public void terminateServer(){
 		try{
-			server.serverSocket.close();
+			server.getServerSocket().close();
 		}catch(IOException e){
 			System.out.println("Exception while terminating server");
 			e.printStackTrace();;

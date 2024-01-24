@@ -13,12 +13,11 @@ import util.SocketWrapper;
 public class Server {
 
     private static final String INPUT_FILE_NAME = "init_stocks.txt";
-	private static final String PASSWORD_FILE_NAME = "init_subscribers.txt";
 
 	private ConcurrentHashMap<String, Stock> stockTable = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
 
-	protected ServerSocket serverSocket;
+	private ServerSocket serverSocket;
     private ConcurrentHashMap<String, SocketWrapper> network = new ConcurrentHashMap<>();
 
     private volatile int userCount = 0;
@@ -26,18 +25,8 @@ public class Server {
 
     Server() {
 		Thread stockThread = new Thread(this::readStocksFromFile);
-		Thread passwordThread = new Thread(this::readPasswordsFromFile);
 		
         stockThread.start();
-		passwordThread.start();
-
-		try {
-			stockThread.join();
-			passwordThread.join();
-		}catch (InterruptedException e) {
-			System.out.println("Exception while joining threads");
-			e.printStackTrace();
-		}
 
 
     }
@@ -62,9 +51,9 @@ public class Server {
         return stockTable;
     }
 
-    public ConcurrentHashMap<String, String> getPasswordTable() {
-        return passwordTable;
-    }
+	public ConcurrentHashMap<String, Vector<String>> getStockSubscriberTable() {
+		return stockSubscriberTable;
+	}
 
     public ConcurrentHashMap<String, SocketWrapper> getNetwork() {
         return network;
@@ -78,52 +67,34 @@ public class Server {
         return updateCount;
     }
 
+	public ServerSocket getServerSocket() {
+		return serverSocket;
+	}
+
     public void readStocksFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // Split the line into tokens
                 String[] tokens = line.split("\\s+");
-
-                // Check if the line has the expected number of tokens
-                if (tokens.length == 3) {
+                if (tokens.length >= 3) {
                     String stockName = tokens[0];
                     int quantity = Integer.parseInt(tokens[1]);
                     double price = Double.parseDouble(tokens[2]);
 
-                    // Create Stock object
                     Stock stock = new Stock(stockName, quantity, price);
 
-                    // Add Stock object to ConcurrentHashMap
                     stockTable.put(stockName, stock);
+
+                    stockSubscriberTable.computeIfAbsent(stockName, k -> new Vector<>());
+
+                    for (int i = 3; i < tokens.length; i++) {
+                        stockSubscriberTable.get(stockName).add(tokens[i]);
+                    }
                 } else {
                     System.out.println("Invalid line in the input file: " + line);
                 }
             }
             System.out.println(stockTable.size() + " stocks available.");
-        } catch (IOException e) {
-            System.out.println("Exception while reading stock file " + INPUT_FILE_NAME);
-            e.printStackTrace();
-        }
-    }
-
-	public void readPasswordsFromFile() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(PASSWORD_FILE_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Split the line into tokens
-                String[] tokens = line.split("\\s+");
-
-                // Check if the line has the expected number of tokens
-                if (tokens.length == 2) {
-                    String userName = tokens[0];
-                    String password = tokens[1];
-					passwordTable.put(userName, password);
-                } else {
-                    System.out.println("Invalid line in the input file: " + line);
-                }
-            }
-            System.out.println(passwordTable.entrySet().size() + " users are currently registered.");
         } catch (IOException e) {
             System.out.println("Exception while reading stock file " + INPUT_FILE_NAME);
             e.printStackTrace();
