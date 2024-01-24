@@ -1,5 +1,5 @@
 package observers;
 
-public class Customer implements User{
+public class Customer {
 	
 }
