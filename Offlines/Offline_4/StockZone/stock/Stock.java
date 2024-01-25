@@ -1,6 +1,8 @@
 package stock;
 
-public class Stock {
+import util.DoubleToString;
+
+public class Stock implements DoubleToString {
     private String name;
     private int quantity;
     private double price;
@@ -37,7 +39,6 @@ public class Stock {
 
 	@Override 
 	public String toString() {
-		var formattedPrice = Double.parseDouble(String.format("%.15g", price));
-		return name + " " + quantity + " " + formattedPrice ;
+		return name + " " + quantity + " " + doubleToString(price) ;
 	}
 }

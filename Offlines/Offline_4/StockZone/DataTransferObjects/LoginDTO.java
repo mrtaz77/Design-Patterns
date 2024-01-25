@@ -5,7 +5,11 @@ import java.io.Serializable;
 public class LoginDTO implements Serializable{
     private boolean status = false;
     private String name;
-    private String password;
+
+	public LoginDTO(String name, boolean status) {
+		this.name = name;
+		this.status = status;
+	}
 
     public boolean isStatus() {
         return status;
@@ -22,15 +26,6 @@ public class LoginDTO implements Serializable{
 
     public LoginDTO setName(String name) {
         this.name = name;
-		return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public LoginDTO setPassword(String password) {
-        this.password = password;
 		return this;
     }
 }

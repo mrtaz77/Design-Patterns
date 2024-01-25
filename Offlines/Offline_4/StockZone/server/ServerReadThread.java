@@ -3,15 +3,16 @@ package server;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import DataTransferObjects.LoginDTO;
 import DataTransferObjects.LogoutDTO;
-import DataTransferObjects.StockDTO;
+import DataTransferObjects.StockInitUpdateDTO;
 import stock.Stock;
 import util.SocketWrapper;
 
-public class TradingThread implements Runnable {
+public class ServerReadThread implements Runnable {
 	private SocketWrapper socketWrapper;
 	private Socket userSocket;
 	private Server server;
@@ -19,14 +20,14 @@ public class TradingThread implements Runnable {
 	private ConcurrentHashMap<String, SocketWrapper> network;
 	
 	private ConcurrentHashMap<String, Stock> stockTable;
-	private ConcurrentHashMap<String, String> passwordTable;
+	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
 
-	public TradingThread(Server server,SocketWrapper socketWrapper,Socket usersSocket) {
+	public ServerReadThread(Server server,SocketWrapper socketWrapper,Socket usersSocket) {
 		this.server = server;
 		this.socketWrapper = socketWrapper;
 		this.userSocket = usersSocket;
 		stockTable = server.getStockTable();
-		passwordTable = server.getPasswordTable();
+		stockSubscriberTable = server.getStockSubscriberTable();
 		network = server.getNetwork();
 		thread = new Thread(this,"TradingThread");
 		thread.start();
@@ -39,8 +40,8 @@ public class TradingThread implements Runnable {
 				Object object = socketWrapper.read();
 				if(object instanceof LoginDTO){
 					processLoginDTO((LoginDTO)object);
-				}else if(object instanceof StockDTO){
-					processStockDTO((StockDTO)object);
+				}else if(object instanceof StockInitUpdateDTO){
+					processStockDTO((StockInitUpdateDTO)object);
 				}else if(object instanceof LogoutDTO){
 					processLogoutDTO((LogoutDTO)object);
 				}
@@ -64,23 +65,11 @@ public class TradingThread implements Runnable {
 		
 	}
 
-	private void processStockDTO(StockDTO object) {
+	private void processStockDTO(StockInitUpdateDTO object) {
 		
 	}
 
 	public void processLoginDTO(LoginDTO loginDTO){
-		boolean isValidLogin = checkCredentials(loginDTO);
-		loginDTO.setStatus(isValidLogin);
-
-		if(isValidLogin){
-			
-		}
-	}
-
-	public boolean checkCredentials(LoginDTO loginDTO){
-		if(passwordTable.containsKey(loginDTO.getName())){
-			return loginDTO.getPassword().equals(passwordTable.get(loginDTO.getName()));
-		}
-		return false;
+		
 	}
 }

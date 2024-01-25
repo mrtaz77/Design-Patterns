@@ -25,10 +25,10 @@ public class Server {
 
     Server() {
 		Thread stockThread = new Thread(this::readStocksFromFile);
-		
         stockThread.start();
-
-
+		new FileWriteThread(this);
+		new ConsoleInterruptThread(this);
+		initSocket();
     }
 
 	public void initSocket() {
@@ -37,13 +37,12 @@ public class Server {
 			System.out.println("Server started...");
 			while(true){
 				var userSocket = serverSocket.accept();
-
-
+				var socketWrapper = new SocketWrapper(userSocket);
+				new ServerReadThread(this,socketWrapper,userSocket);
 			}
-
-
 		}catch(IOException e) {
-			
+			System.out.println("Exception while starting server");
+			e.printStackTrace();
 		}
 	}
 
