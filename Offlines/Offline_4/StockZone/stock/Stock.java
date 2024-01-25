@@ -34,4 +34,10 @@ public class Stock {
     public double getPrice() {
         return price;
     }
+
+	@Override 
+	public String toString() {
+		var formattedPrice = Double.parseDouble(String.format("%.15g", price));
+		return name + " " + quantity + " " + formattedPrice ;
+	}
 }
