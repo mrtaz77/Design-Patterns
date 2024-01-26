@@ -3,10 +3,7 @@ package observers;
 import java.io.IOException;
 import java.util.Scanner;
 
-import DataTransferObjects.LogoutDTO;
-import DataTransferObjects.StockInitUpdateDTO;
-import DataTransferObjects.UpdateType;
-import DataTransferObjects.ViewDTO;
+import DataTransferObjects.*;
 import util.SocketWrapper;
 
 public class AdminWriteThread implements Runnable {
@@ -26,11 +23,12 @@ public class AdminWriteThread implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("In run of admin write thread");
 			while (admin.isLoggedIn()) {
 				System.out.println("********* Stock Menu *************");
 				String command = scanner.nextLine().trim();
 				if (command.equalsIgnoreCase("LOGOUT")) {
-					socketWrapper.write(new LogoutDTO("admin"));
+					socketWrapper.write(new LogoutDTO(admin.getName()));
 					admin.setLoggedIn(false);
 				}
 				else {

@@ -14,6 +14,8 @@ public class Server {
 
     private static final String INPUT_FILE_NAME = "init_stocks.txt";
 
+	private boolean isActive;
+
 	private ConcurrentHashMap<String, Stock> stockTable = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
 
@@ -24,25 +26,30 @@ public class Server {
 	private volatile int updateCount = 0;
 
     Server() {
+		isActive = true;
 		Thread stockThread = new Thread(this::readStocksFromFile);
         stockThread.start();
 		new FileWriteThread(this);
 		new ConsoleInterruptThread(this);
-		initSocket();
+		try {
+			initSocket();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
     }
 
-	public void initSocket() {
+	public void initSocket() throws ClassNotFoundException {
 		try {
-			serverSocket = new ServerSocket(3000);
+			serverSocket = new ServerSocket(33333);
 			System.out.println("Server started...");
-			while(true){
+			while(isActive){
 				var userSocket = serverSocket.accept();
 				var socketWrapper = new SocketWrapper(userSocket);
-				new ServerReadThread(this,socketWrapper,userSocket);
+				new ServerReadThread(this,socketWrapper);
 			}
 		}catch(IOException e) {
 			System.out.println("Exception while starting server");
-			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 
@@ -69,6 +76,8 @@ public class Server {
 	public ServerSocket getServerSocket() {
 		return serverSocket;
 	}
+
+	public void setIsActive(boolean isActive) { this.isActive = isActive; }
 
     public void readStocksFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE_NAME))) {
@@ -101,7 +110,7 @@ public class Server {
     }
 
 	public synchronized void setUserCount(int userCount) {this.userCount = userCount;}
-    public synchronized void setUpdateCount() {this.updateCount = updateCount;}
+    public synchronized void setUpdateCount(int updateCount) {this.updateCount = updateCount;}
 
     public static void main(String[] args) {
         System.out.println("Welcome to StockZone!!!");

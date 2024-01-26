@@ -6,20 +6,20 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketWrapper {
-	private final Socket socket;
-	private final ObjectOutputStream objectOutputStream;
-	private final ObjectInputStream objectInputStream;
+	private Socket socket;
+	private ObjectOutputStream objectOutputStream;
+	private ObjectInputStream objectInputStream;
 
-	public SocketWrapper(String socketName,int port) throws IOException {
-		this.socket = new Socket(socketName, port);
-		objectInputStream = new ObjectInputStream(socket.getInputStream());
-		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+	public SocketWrapper(String serverAddress,int port) throws IOException {
+		this.socket = new Socket(serverAddress, port);
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
 	}
 
 	public SocketWrapper(Socket socket) throws IOException {
 		this.socket = socket;
-		objectInputStream = new ObjectInputStream(socket.getInputStream());
 		objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		objectInputStream = new ObjectInputStream(socket.getInputStream());
 	}
 
 	public Object read() throws IOException, ClassNotFoundException {

@@ -2,26 +2,25 @@ package observers;
 
 import java.io.IOException;
 
-import DataTransferObjects.LoginDTO;
-import DataTransferObjects.LogoutDTO;
-import DataTransferObjects.StockUpdateConfirmDTO;
-import DataTransferObjects.SubscriptionDTO;
+import DataTransferObjects.*;
 import util.SocketWrapper;
 
 public class AdminReadThread implements Runnable {
 	private SocketWrapper socketWrapper;
 	private Thread thread;
+	private volatile boolean isActive;
 
 	public AdminReadThread(SocketWrapper socketWrapper) {
 		this.socketWrapper = socketWrapper;
-		this.thread = new Thread(this);
+		this.thread = new Thread(this,"AdminReadThread");
+		isActive = true;
 		thread.start();
 	}
 
 	@Override
 	public void run() {
 		try {
-			while(true) {
+			while(isActive) {
 				Object obj = socketWrapper.read();
 				processObject(obj);
 			}
@@ -43,7 +42,18 @@ public class AdminReadThread implements Runnable {
 		else if(obj instanceof SubscriptionDTO) processSubscriptionDTO(obj);
 		else if(obj instanceof StockUpdateConfirmDTO) processConfirmationDTO(obj);
 		else if(obj instanceof LogoutDTO) processLogoutDTO(obj);
+		else if(obj instanceof InterruptDTO) processInterruptDTO();
 		else System.out.println(obj);
+	}
+
+	private void processInterruptDTO() {
+		try {
+			socketWrapper.close();
+			isActive = false;
+		} catch (IOException e) {
+			System.out.println("Exception while closing socket");
+			e.printStackTrace();
+		}	
 	}
 
 	private void processLogoutDTO(Object obj) {

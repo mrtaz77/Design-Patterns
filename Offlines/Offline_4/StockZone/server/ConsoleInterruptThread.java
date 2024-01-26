@@ -24,6 +24,7 @@ public class ConsoleInterruptThread implements Runnable {
 					var interruptDTO = new InterruptDTO(true);
 					disconnectUsers(interruptDTO);
 					terminateServer();
+					break;
 				}
 			}
 		}
@@ -43,6 +44,8 @@ public class ConsoleInterruptThread implements Runnable {
 	public void terminateServer(){
 		try{
 			server.getServerSocket().close();
+			server.setIsActive(false);
+			System.out.println("In console interrupt closed server");
 		}catch(IOException e){
 			System.out.println("Exception while terminating server");
 			e.printStackTrace();;

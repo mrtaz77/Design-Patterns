@@ -2,8 +2,10 @@ package DataTransferObjects;
 
 import java.io.Serializable;
 
+import util.InputValidator;
 
-public class StockInitUpdateDTO implements Serializable{
+
+public class StockInitUpdateDTO implements Serializable,InputValidator{
 	private UpdateType type;
 	private String stockName = "";
 	private Double amount = 0.0;
