@@ -1,8 +1,10 @@
 package stock;
 
+import java.io.Serializable;
+
 import util.DoubleToString;
 
-public class Stock implements DoubleToString {
+public class Stock implements DoubleToString,Serializable {
     private String name;
     private int quantity;
     private double price;

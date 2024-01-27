@@ -28,12 +28,10 @@ public class SocketWrapper {
 
 	public void write(Object obj) throws IOException {
 		objectOutputStream.writeUnshared(obj);
-		objectOutputStream.flush();  // Ensure the data is sent immediately
 	}
 
 	public void close() throws IOException {
 		objectInputStream.close();
 		objectOutputStream.close();
-		socket.close();
 	}
 }

@@ -59,5 +59,5 @@ public class FileWriteThread implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

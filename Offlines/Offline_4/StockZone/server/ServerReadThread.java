@@ -26,7 +26,6 @@ public class ServerReadThread implements Runnable,InputValidator {
 		network = server.getNetwork();
 		thread = new Thread(this,"TradingThread");
 		thread.start();
-		System.out.println("Creating a read thread");
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class ServerReadThread implements Runnable,InputValidator {
 				}else if(object instanceof InterruptDTO){
 					System.out.println("Found an interrupt DTO");
 					break;
-				};
+				}
 			}
 		}catch(Exception e){
 			System.out.println("Exception while trading stocks");
@@ -200,7 +199,9 @@ public class ServerReadThread implements Runnable,InputValidator {
 		System.out.println("Got a login");
 		server.setUserCount(server.getUserCount() + 1);
 		network.put(loginDTO.getName(),socketWrapper);
+		var view = new ViewDTO(loginDTO.getName());
+		processViewDTO(view);
+		System.out.println("Sending all stock infos");
 		notifyAdmins(loginDTO);
-		socketWrapper.write("Login successfull");
 	}
 }

@@ -7,7 +7,7 @@ import stock.Stock;
 import util.DoubleToString;
 
 public class ViewDTO implements Serializable,DoubleToString {
-	private Vector<Stock> stocks;
+	private Vector<Stock> stocks = new Vector<Stock>();
 	private String name;
 
 	public ViewDTO(String name) {
