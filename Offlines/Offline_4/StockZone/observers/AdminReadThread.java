@@ -8,19 +8,17 @@ import util.SocketWrapper;
 public class AdminReadThread implements Runnable {
 	private SocketWrapper socketWrapper;
 	private Thread thread;
-	private volatile boolean isActive;
 
 	public AdminReadThread(SocketWrapper socketWrapper) {
 		this.socketWrapper = socketWrapper;
 		this.thread = new Thread(this,"AdminReadThread");
-		isActive = true;
 		thread.start();
 	}
 
 	@Override
 	public void run() {
 		try {
-			while(isActive) {
+			while(true) {
 				Object obj = socketWrapper.read();
 				processObject(obj);
 			}
@@ -49,7 +47,6 @@ public class AdminReadThread implements Runnable {
 	private void processInterruptDTO() {
 		try {
 			socketWrapper.close();
-			isActive = false;
 		} catch (IOException e) {
 			System.out.println("Exception while closing socket");
 			e.printStackTrace();
