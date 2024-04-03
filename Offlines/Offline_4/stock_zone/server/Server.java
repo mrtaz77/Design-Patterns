@@ -31,6 +31,7 @@ public class Server {
     Server() {
 		Thread stockThread = new Thread(this::readStocksFromFile);
         stockThread.start();
+		new FileWriteThread(this);
         try {
 			System.out.println("Server started...");
             serverSocket = new ServerSocket(33333);

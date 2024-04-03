@@ -11,7 +11,8 @@ public class Admin extends User {
     public Admin(String serverAddress, int serverPort) {
         try {
             System.out.println("Login");
-            Scanner scanner = new Scanner(System.in);
+            @SuppressWarnings("resource")
+			Scanner scanner = new Scanner(System.in);
 			var isAdmin = false;
 			while (!isAdmin) {
 				var tokens = scanner.nextLine().split(" ");
@@ -29,7 +30,7 @@ public class Admin extends User {
 			socketWrapper.write(loginDTO);
 			System.out.println(socketWrapper.read());
             new ReadThreadAdmin(socketWrapper);
-            new WriteThreadAdmin(socketWrapper, name);
+            new WriteThreadAdmin(socketWrapper, this);
         } catch (Exception e) {
             System.out.println(e);
         }

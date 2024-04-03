@@ -10,6 +10,7 @@ public class Customer extends User {
 	public Customer(String serverAddress, int serverPort) {
         try {
 			System.out.println("Login");
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner(System.in);
 			var isLogin = false;
 			while (!isLogin) {

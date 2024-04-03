@@ -10,7 +10,7 @@ public class ReadThreadCustomer implements Runnable {
 
     public ReadThreadCustomer(SocketWrapper SocketWrapper) {
         this.SocketWrapper = SocketWrapper;
-        this.thread = new Thread(this);
+        this.thread = new Thread(this,"ReadThreadCustomer");
         thread.start();
     }
 
