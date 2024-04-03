@@ -1,67 +1,66 @@
 package observers;
 
-import java.io.IOException;
-
-import DataTransferObjects.*;
 import util.SocketWrapper;
 
-public class AdminReadThread implements Runnable {
-	private SocketWrapper socketWrapper;
-	private Thread thread;
+import java.io.IOException;
 
-	public AdminReadThread(SocketWrapper socketWrapper) {
-		this.socketWrapper = socketWrapper;
-		this.thread = new Thread(this,"AdminReadThread");
-		thread.start();
-	}
+import DataTransferObjects.LoginDTO;
+import DataTransferObjects.LogoutDTO;
+import DataTransferObjects.StockUpdateConfirmDTO;
+import DataTransferObjects.SubscriptionDTO;
 
-	@Override
-	public void run() {
-		try {
-			while(true) {
-				Object obj = socketWrapper.read();
-				processObject(obj);
-			}
-		}catch (Exception e) {
+public class ReadThreadAdmin implements Runnable {
+    private Thread thread;
+    private SocketWrapper SocketWrapper;
+
+    public ReadThreadAdmin(SocketWrapper SocketWrapper) {
+        this.SocketWrapper = SocketWrapper;
+        this.thread = new Thread(this,"ReadThreadAdmin");
+        thread.start();
+    }
+
+    public void run() {
+        try {
+            while (true) {
+                Object o = SocketWrapper.read();
+                processObject(o);
+            }
+        } catch (Exception e) {
             System.out.println("Exception in admin read thread");
             e.printStackTrace();
         } finally {
             try {
-                socketWrapper.close();
+                SocketWrapper.closeConnection();
             } catch (IOException e) {
 				System.out.println("Exception while closing admin connection");
                 e.printStackTrace();
             }
         }
-	}
+    }
 
 	private void processObject(Object obj) {
 		if(obj instanceof LoginDTO) processLoginDTO(obj);
 		else if(obj instanceof SubscriptionDTO) processSubscriptionDTO(obj);
 		else if(obj instanceof StockUpdateConfirmDTO) processConfirmationDTO(obj);
 		else if(obj instanceof LogoutDTO) processLogoutDTO(obj);
-		else if(obj instanceof InterruptDTO) processInterruptDTO();
 		else System.out.println(obj);
 	}
 
-	private void processInterruptDTO() {
-		try {
-			socketWrapper.close();
-		} catch (IOException e) {
-			System.out.println("Exception while closing socket");
-			e.printStackTrace();
-		}	
+	private void processLoginDTO(Object obj) {
+		var loginDTO = (LoginDTO) obj;
+		var userName = loginDTO.getName();
+		System.out.println("\n: " + userName + " just logged in\n> ");
 	}
 
 	private void processLogoutDTO(Object obj) {
 		var logoutDTO = (LogoutDTO)obj;
 		var userName = logoutDTO.getName();
-		System.out.println(userName + " just logged out");
+		System.out.println("\n: " + userName + " just logged out\n> ");
 	}
 
 	private void processConfirmationDTO(Object obj) {
 		var confirmationDTO = (StockUpdateConfirmDTO) obj;
-		System.out.println(confirmationDTO + " successfully");
+		System.out.println("\n: " + confirmationDTO + " successfully\n> ");
 	}
 
 	private void processSubscriptionDTO(Object obj) {
@@ -73,12 +72,9 @@ public class AdminReadThread implements Runnable {
 		if(isSubscribed)out.append(" subscribed to ");
 		else out.append(" unsubscribed from ");
 		out.append(stockName);
-		System.out.println(out);
-	}
-
-	private void processLoginDTO(Object obj) {
-		var loginDTO = (LoginDTO) obj;
-		var userName = loginDTO.getName();
-		System.out.println(userName + " just logged in");
+		System.out.println("\n: " + out + "\n> ");
 	}
 }
+
+
+

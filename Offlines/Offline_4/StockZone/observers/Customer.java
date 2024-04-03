@@ -5,28 +5,12 @@ import java.util.Scanner;
 import DataTransferObjects.LoginDTO;
 import util.SocketWrapper;
 
-public class Customer {
-	private UserType type = UserType.CUSTOMER;
-	private String name;
-	private boolean isLoggedIn = false;
-
-	public UserType getType() {
-		return type;
-	}
-
-	public String getName() { return name; }
-
-	public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public void setLoggedIn(Boolean loggedIn) {
-        this.isLoggedIn = loggedIn;
-    }
+public class Customer extends User {
 
 	public Customer(String name,String serverAddress, int serverPort) {
         try {
 			this.name = name;
+			type = UserType.CUSTOMER;
             var socketWrapper = new SocketWrapper(serverAddress, serverPort);
 			var loginDTO = new LoginDTO(name,true);
             socketWrapper.write(loginDTO);
@@ -40,13 +24,12 @@ public class Customer {
     }
 
 	public static void main(String[] args) {
-		String serverAddress = "127.0.0.1";
-        int serverPort = 33333;
 		try(Scanner scanner = new Scanner(System.in)){
 			System.out.println("Login");
 			while(true){
 				var tokens = scanner.nextLine().split(" ");
 				if(tokens.length == 2 && tokens[0].equalsIgnoreCase("login")){
+					scanner.close();
 					new Customer(tokens[1],serverAddress, serverPort);
 					break;
 				}else {
