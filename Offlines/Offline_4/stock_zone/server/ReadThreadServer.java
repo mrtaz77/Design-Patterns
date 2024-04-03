@@ -21,6 +21,7 @@ public class ReadThreadServer implements Runnable, InputValidator {
     private Thread thread;
     private SocketWrapper socketWrapper;
     private Server server;
+	private boolean isConnected = true;
 	private ConcurrentHashMap<String, SocketWrapper> network;
 	
 	private ConcurrentHashMap<String, Stock> stockTable;
@@ -39,7 +40,7 @@ public class ReadThreadServer implements Runnable, InputValidator {
 	@Override
     public void run() {
         try {
-            while (true) {
+            while (isConnected) {
                 Object object = socketWrapper.read();
                 if(object instanceof LoginDTO){
 					processLoginDTO((LoginDTO)object);
@@ -205,9 +206,10 @@ public class ReadThreadServer implements Runnable, InputValidator {
 
 	private void processLogoutDTO(LogoutDTO logoutDTO) throws IOException {
 		server.setUserCount(server.getUserCount() - 1);
-		network.remove(logoutDTO.getName());
+		var socketWrapper = network.remove(logoutDTO.getName());
 		notifyAdmins(logoutDTO);
 		socketWrapper.write("Logout successfull");
+		isConnected = false;
 	}
 }
 

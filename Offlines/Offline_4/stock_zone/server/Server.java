@@ -1,5 +1,6 @@
 package server;
 
+import util.NetworkingConstants;
 import util.SocketWrapper;
 
 import java.io.BufferedReader;
@@ -12,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import stock.Stock;
 
-public class Server {
+public class Server implements NetworkingConstants {
 
 	private static final String INPUT_FILE_NAME = "init_stocks.txt";
 
@@ -34,7 +35,7 @@ public class Server {
 		new FileWriteThread(this);
         try {
 			System.out.println("Server started...");
-            serverSocket = new ServerSocket(33333);
+            serverSocket = new ServerSocket(serverPort);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 serve(clientSocket);
