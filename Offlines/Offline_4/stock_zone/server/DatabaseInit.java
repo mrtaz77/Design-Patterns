@@ -11,6 +11,8 @@ import stock.Stock;
 
 public class DatabaseInit {
 
+	private static DatabaseInit instance;
+
 	private static final String STOCKS_FILE = "stocks.txt";
 	private static final String STOCK_SUBSCRIBERS_FILE = "stock_subscriber.txt";
 	private static final String SUBSCRIBER_NOTFICATIONS_FILE = "subscriber_notification.txt";
@@ -19,12 +21,17 @@ public class DatabaseInit {
 	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<String, Vector<String>> subscriberNotificationTable = new ConcurrentHashMap<>();
 
-	public DatabaseInit(Server server) {
+	private DatabaseInit(Server server) {
 		stockTable = server.getStockTable();
 		stockSubscriberTable = server.getStockSubscriberTable();
 		subscriberNotificationTable = server.getSubscriberNotificationTable();
 		initTables();
 		displayTables();
+	}
+
+	public static DatabaseInit getInstance(Server server) {
+		if(instance == null) instance = new DatabaseInit(server);
+		return instance;
 	}
 
 	private void initTables() {

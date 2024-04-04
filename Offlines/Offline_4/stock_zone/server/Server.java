@@ -19,18 +19,23 @@ public class Server implements NetworkingConstants {
 
     private ConcurrentHashMap<String, Stock> stockTable = new ConcurrentHashMap<>();
 	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, Vector<String>> subscriberNotificationTable = new ConcurrentHashMap<>();
 
 	private ServerSocket serverSocket;
     private ConcurrentHashMap<String, SocketWrapper> network = new ConcurrentHashMap<>();
 
     private volatile int userCount = 0;
-	private volatile int updateCount = 0;
+	private volatile int stockTableUpdateCount = 0;
+	private volatile int subscriberUpdateCount = 0;
+	private volatile int notificationUpdateCount = 0;
 
 	public synchronized void setUserCount(int userCount) {this.userCount = userCount;}
-    public synchronized void setUpdateCount(int updateCount) {this.updateCount = updateCount;}
+    public synchronized void setStockTableUpdateCount(int stockTableUpdateCount) {this.stockTableUpdateCount = stockTableUpdateCount;}
+	public synchronized void setSubscriberUpdateCount(int subscriberUpdateCount) {this.subscriberUpdateCount = subscriberUpdateCount;}
+	public synchronized void setNotificationUpdateCount(int notificationUpdateCount) {this.notificationUpdateCount = notificationUpdateCount;}
 
     Server() {
-		new FileReadThread(this);
+		DatabaseInit.getInstance(this);
 		new FileWriteThread(this);
         try {
 			System.out.println("Server started...");
@@ -64,13 +69,19 @@ public class Server implements NetworkingConstants {
         return network;
     }
 
-    public int getUserCount() {
+	public ConcurrentHashMap<String, Vector<String>> getSubscriberNotificationTable() {
+		return subscriberNotificationTable;
+	}
+    
+	public int getUserCount() {
         return userCount;
     }
 
-    public int getUpdateCount() {
-        return updateCount;
-    }
+    public int getStockTableUpdateCount() { return stockTableUpdateCount; }
+
+	public int getNotificationUpdateCount() { return notificationUpdateCount; }
+
+	public int getSubscriberUpdateCount() { return subscriberUpdateCount; }
 
 	public ServerSocket getServerSocket() {
 		return serverSocket;
