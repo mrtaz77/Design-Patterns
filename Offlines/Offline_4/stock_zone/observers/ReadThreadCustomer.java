@@ -1,11 +1,11 @@
 package observers;
 
+import DataTransferObjects.ViewDTO;
 import util.SocketWrapper;
 
 public class ReadThreadCustomer implements Runnable {
     private Thread thread;
     private SocketWrapper socketWrapper;
-	private boolean confirmLogout = false;
 
     public ReadThreadCustomer(SocketWrapper SocketWrapper) {
         this.socketWrapper = SocketWrapper;
@@ -15,12 +15,13 @@ public class ReadThreadCustomer implements Runnable {
 
     public void run() {
         try {
-            while (!confirmLogout) {
+            while (true) {
                 Object o = socketWrapper.read();
+				if(!(o instanceof ViewDTO)) System.out.print("\n: ");
                 System.out.print(o);
 				if(o instanceof String) {
 					var str = ((String)o);
-					if(str.equals("Logout successfull"))confirmLogout = true;
+					if(str.equals("Logout successfull"))break;
 				}
 				System.out.print("\n> ");
 			}

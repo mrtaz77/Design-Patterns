@@ -30,8 +30,7 @@ public class Server implements NetworkingConstants {
     public synchronized void setUpdateCount(int updateCount) {this.updateCount = updateCount;}
 
     Server() {
-		Thread stockThread = new Thread(this::readStocksFromFile);
-        stockThread.start();
+		new FileReadThread(this);
 		new FileWriteThread(this);
         try {
 			System.out.println("Server started...");
