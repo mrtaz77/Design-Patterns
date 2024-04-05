@@ -28,4 +28,6 @@ public class LoginDTO implements Serializable{
         this.name = name;
 		return this;
     }
+
+	@Override public String toString() { return "login " + name; }
 }

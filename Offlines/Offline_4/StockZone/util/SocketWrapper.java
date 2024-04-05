@@ -30,7 +30,7 @@ public class SocketWrapper {
 		objectOutputStream.writeUnshared(obj);
 	}
 
-	public void close() throws IOException {
+	public void closeConnection() throws IOException {
 		objectInputStream.close();
 		objectOutputStream.close();
 	}
