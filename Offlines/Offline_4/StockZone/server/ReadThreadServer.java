@@ -83,7 +83,7 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 				}
 			}
 		}
-		return toString(stocks);
+		return vectorOfStocksToString(stocks);
 	}
 
 	private void processSubscriptionDTO(SubscriptionDTO subscription) throws IOException{
@@ -96,14 +96,14 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 			try{
 				if(status && !isSubscribedToStocks(userName, stockName, stockSubscriberTable)){
 					stockSubscriberTable.get(stockName).add(userName);
-					network.get(userName).write("Congratulations ! You are now subscribed to "+stockName);
+					socketWrapper.write("Congratulations ! You are now subscribed to "+stockName);
 					message.append(" subscribed to ");
 				}else if(!status && isSubscribedToStocks(userName, stockName, stockSubscriberTable)) {
 					stockSubscriberTable.get(stockName).remove(userName);
-					network.get(userName).write("You have been unsubscribed from "+stockName);
+					socketWrapper.write("You have been unsubscribed from "+stockName);
 					message.append(" unsubscribed from ");
 				}else {
-					network.get(userName).write("Invalid request");
+					socketWrapper.write("Invalid request");
 					return;
 				}
 				message.append(stockName);
@@ -114,7 +114,6 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 			}
 		}else socketWrapper.write("No stock with name " + stockName + " in the database");
 	}
-
 
 	public void processLoginDTO(LoginDTO loginDTO) throws IOException{
 		System.out.println(loginDTO.getName() + " just logged in...");
@@ -179,7 +178,6 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 						break;
 					default:
 						if(!notifyAdmins("Invalid change")) addNotification("admin1", "Invalid change" );
-						socketWrapper.write("Invalid change");
 						break;
 				}
 				if(success){

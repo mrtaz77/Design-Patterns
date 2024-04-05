@@ -5,7 +5,7 @@ import java.util.Vector;
 import stock.Stock;
 
 public interface StockTableDisplay {
-	default public String toString(Vector<Stock> stocks){
+	default public String vectorOfStocksToString(Vector<Stock> stocks){
 		var out = new StringBuilder();
 		out.append("____________________________________________________________________\n");
         out.append("|     Stock      |        Price         |         Quantity         |\n");
