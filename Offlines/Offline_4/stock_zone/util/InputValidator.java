@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import stock.Stock;
@@ -14,5 +15,8 @@ public interface InputValidator {
 	}
 	default boolean stockPresent(String stockName,ConcurrentHashMap<String, Stock> stocks) {
 		return stocks.containsKey(stockName);
+	}
+	default boolean isSubscribedToStocks(String subscriber, String stockName, ConcurrentHashMap<String, Vector<String>> subscriptions) {
+		return subscriptions.get(stockName).contains(subscriber);
 	}
 }
