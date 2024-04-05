@@ -31,10 +31,10 @@ public class FileWriteThread implements Runnable {
 	@Override
 	public void run() {
 		while(true){
-			if(updateCount < server.getUpdateCount()){
+			if(updateCount < server.getStockTableUpdateCount()){
 				writeStocksToFile();
-				System.out.println("Stock table updated; Number of changes: " + String.valueOf(server.getUpdateCount() - updateCount));
-				updateCount = server.getUpdateCount();
+				System.out.println("Stock table updated; Number of changes: " + String.valueOf(server.getStockTableUpdateCount() - updateCount));
+				updateCount = server.getStockTableUpdateCount();
 			}
 		}
 	}

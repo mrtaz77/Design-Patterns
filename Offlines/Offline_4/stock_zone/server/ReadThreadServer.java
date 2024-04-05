@@ -21,12 +21,14 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 	
 	private ConcurrentHashMap<String, Stock> stockTable;
 	private ConcurrentHashMap<String, Vector<String>> stockSubscriberTable;
+	private ConcurrentHashMap<String, Vector<String>> subscriberNotificationTable = new ConcurrentHashMap<>();
 
     public ReadThreadServer(Server server, SocketWrapper SocketWrapper) {
         this.server = server;
         this.socketWrapper = SocketWrapper;
 		stockTable = server.getStockTable();
 		stockSubscriberTable = server.getStockSubscriberTable();
+		subscriberNotificationTable = server.getSubscriberNotificationTable();
 		network = server.getNetwork();
         this.thread = new Thread(this,"Trading Thread");
         thread.start();
@@ -42,7 +44,7 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 				}else if(object instanceof StockInitUpdateDTO){
 					processStockDTO((StockInitUpdateDTO)object);
 				}else if(object instanceof ViewDTO){
-					processViewDTO((ViewDTO)object);
+					displayStockInfo(((ViewDTO)object).getName());
 				}else if(object instanceof LogoutDTO){
 					processLogoutDTO((LogoutDTO)object);
 				}else if(object instanceof SubscriptionDTO){
@@ -62,8 +64,7 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
         }
     }
 
-	private void processViewDTO(ViewDTO view) throws IOException {
-		var userName = view.getName();
+	private void displayStockInfo(String userName) throws IOException {
 		var stocks = new Vector<Stock>();
 		if(userName.startsWith("admin")){
 			for (Map.Entry<String, Stock> entry : stockTable.entrySet()) {
@@ -82,26 +83,29 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 				}
 			}
 		}
-		var display = toString(stocks);
-		network.get(userName).write(display);
+		network.get(userName).write(toString(stocks));
 	}
 
 	private void processSubscriptionDTO(SubscriptionDTO subscription) throws IOException{
 		var userName = subscription.getUserName();
 		var stockName = subscription.getStockName();
 		var status = subscription.isSubscribed();
+		var message = new StringBuilder(userName);
 
 		if(stockPresent(stockName, stockTable)){
 			try{
 				if(status){
 					stockSubscriberTable.get(stockName).add(userName);
 					network.get(userName).write("Congratulations ! You are now subscribed to "+stockName);
+					message.append(" subscribed to ");
 				}else {
 					stockSubscriberTable.get(stockName).remove(userName);
 					network.get(userName).write("You have been unsubscribed from "+stockName);
+					message.append(" unsubscribed from ");
 				}
-				notifyAdmins(subscription);
-				server.setUpdateCount(server.getUpdateCount() + 1);
+				message.append(stockName);
+				if(!notifyAdmins(subscription))addNotification("admin1",message.toString());
+				server.setSubscriberUpdateCount(server.getSubscriberUpdateCount() + 1);
 			}catch(Exception e){
 				socketWrapper.write(e.getMessage());
 			}
@@ -113,18 +117,20 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 		System.out.println(loginDTO.getName() + " just logged in...");
 		server.setUserCount(server.getUserCount() + 1);
 		network.put(loginDTO.getName(), socketWrapper);
-		var view = new ViewDTO(loginDTO.getName());
-		processViewDTO(view);
+		displayStockInfo(loginDTO.getName());
 		System.out.println("Sending all stock infos to " + loginDTO.getName());
-		notifyAdmins(loginDTO);
+		if(!notifyAdmins(loginDTO))addNotification("admin1", "\n: " + loginDTO.getName() + " just logged in");
 	}
 
-	private void notifyAdmins(Object obj) throws IOException{
+	private boolean notifyAdmins(Object obj) throws IOException{
+		var adminOnline = false;
 		for (Map.Entry<String, SocketWrapper> entry : network.entrySet()) {
             if (entry.getKey().startsWith("admin")) {
+				adminOnline = true;
                 entry.getValue().write(obj);
             }
         }
+		return adminOnline;
 	}
 
 	private void processStockDTO(StockInitUpdateDTO object) throws IOException {
@@ -153,14 +159,14 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 						success = true;
 						break;
 					default:
-						notifyAdmins("Invalid change");
+						if(!notifyAdmins("Invalid change")) addNotification("admin1", "Invalid change" );
 						socketWrapper.write("Invalid change");
 						break;
 				}
 				if(success){
-					notifyAdmins(dto);
+					if(!notifyAdmins(dto)) addNotification("admin1", dto.toString());
 					notifySubscribers(dto);
-					server.setUpdateCount(server.getUpdateCount() + 1);
+					server.setStockTableUpdateCount(server.getStockTableUpdateCount() + 1);
 				}
 			}catch(Exception e){
 				socketWrapper.write(e.getMessage());
@@ -195,9 +201,8 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 		return new StockUpdateConfirmDTO(stockName, UpdateType.DecrementPrice, prevPrice, newPrice);
 	}
 
-	private StockUpdateConfirmDTO changeCount(long l, String stockName) {
+	private StockUpdateConfirmDTO changeCount(long newQuantity, String stockName) {
 		var prevQuantity = stockTable.get(stockName).getQuantity();
-		var newQuantity = l;
 		stockTable.get(stockName).setQuantity(newQuantity);
 		return new StockUpdateConfirmDTO(stockName, UpdateType.ChangeQuantity, prevQuantity, newQuantity);
 	}
@@ -205,11 +210,13 @@ public class ReadThreadServer implements Runnable, InputValidator, StockTableDis
 	private void processLogoutDTO(LogoutDTO logoutDTO) throws IOException {
 		server.setUserCount(server.getUserCount() - 1);
 		var socketWrapper = network.remove(logoutDTO.getName());
-		notifyAdmins(logoutDTO);
+		if(!notifyAdmins(logoutDTO))addNotification("admin1", "\n: " + logoutDTO.getName() + " just logged out");
 		socketWrapper.write("Logout successfull");
 		isConnected = false;
 	}
+	
+	private void addNotification(String name, String notification) {
+		subscriberNotificationTable.computeIfAbsent(name, k -> new Vector<>());
+		subscriberNotificationTable.get(name).add(notification);
+	}
 }
-
-
-

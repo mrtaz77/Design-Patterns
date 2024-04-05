@@ -23,7 +23,6 @@ public class Server {
 
     private volatile int userCount = 0;
 	private volatile int updateCount = 0;
-
     
     Server() {
 		Thread stockThread = new Thread(this::readStocksFromFile);
