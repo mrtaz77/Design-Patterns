@@ -79,8 +79,8 @@ public class DatabaseInit {
 			while ((line = reader.readLine()) != null) {
 				String[] tokens = line.split("\\s+");
 				if (tokens.length == 2) {
-					String stockName = tokens[0];
-					String subscriberName = tokens[1];
+					String subscriberName = tokens[0];
+					String stockName = tokens[1];
 					stockSubscriberTable.computeIfAbsent(stockName, k -> new Vector<>());
 					stockSubscriberTable.get(stockName).add(subscriberName);
 				} else {
