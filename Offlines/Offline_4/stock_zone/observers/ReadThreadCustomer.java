@@ -2,34 +2,32 @@ package observers;
 
 import util.SocketWrapper;
 
-import java.io.IOException;
-
 public class ReadThreadCustomer implements Runnable {
-    private Thread thread;
-    private SocketWrapper SocketWrapper;
+	private Thread thread;
+	private SocketWrapper socketWrapper;
 
-    public ReadThreadCustomer(SocketWrapper SocketWrapper) {
-        this.SocketWrapper = SocketWrapper;
-        this.thread = new Thread(this,"ReadThreadCustomer");
-        thread.start();
-    }
+	public ReadThreadCustomer(SocketWrapper SocketWrapper) {
+		this.socketWrapper = SocketWrapper;
+		this.thread = new Thread(this,"ReadThreadCustomer");
+		thread.start();
+	}
 
-    public void run() {
-        try {
-            while (true) {
-                Object o = SocketWrapper.read();
-                System.out.println(o);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            try {
-                SocketWrapper.closeConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+	public void run() {
+		try {
+			while (true) {
+				Object o = socketWrapper.read();
+				System.out.print("\n< " + o);
+				if(o instanceof String) {
+					var str = ((String)o);
+					if(str.equals("Logout successfull"))break;
+				}
+				System.out.print("\n> ");
+			}
+		} catch (Exception e) {
+			System.out.println("Found error in " + thread.getName());
+			e.printStackTrace();
+		} 
+	}
 }
 
 

@@ -6,7 +6,7 @@ import util.DoubleToString;
 
 public class Stock implements DoubleToString,Serializable {
     private String name;
-    private int quantity;
+    private long quantity;
     private double price;
 
     public Stock(String name, int quantity, double price) {
@@ -23,11 +23,11 @@ public class Stock implements DoubleToString,Serializable {
         return name;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantity(long newQuantity) {
+        this.quantity = newQuantity;
     }
 
-    public int getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 

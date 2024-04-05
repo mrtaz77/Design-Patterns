@@ -13,8 +13,7 @@ public class InterruptDTO implements Serializable {
         return status;
     }
 
-    public InterruptDTO setStatus(boolean status) {
+    public void setStatus(boolean status) {
         this.status = status;
-		return this;
     }
 }
