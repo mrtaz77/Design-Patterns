@@ -47,7 +47,7 @@ public class DatabaseInit {
 		}
 		System.out.println();
 		for (Map.Entry<String, Vector<String>> notificationEntry : subscriberNotificationTable.entrySet()) {
-			System.out.println("# of subscribers for user " + notificationEntry.getKey() + " : " + String.valueOf(notificationEntry.getValue().size()));
+			System.out.println("# of notifications for user " + notificationEntry.getKey() + " : " + String.valueOf(notificationEntry.getValue().size()));
 		}
 		System.out.println();
 	}

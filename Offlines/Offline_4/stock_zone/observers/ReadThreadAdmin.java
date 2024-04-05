@@ -45,18 +45,18 @@ public class ReadThreadAdmin implements Runnable {
 	private void processLoginDTO(Object obj) {
 		var loginDTO = (LoginDTO) obj;
 		var userName = loginDTO.getName();
-		System.out.print("\n: " + userName + " just logged in");
+		System.out.print("\n< " + userName + " just logged in");
 	}
 
 	private void processLogoutDTO(Object obj) {
 		var logoutDTO = (LogoutDTO)obj;
 		var userName = logoutDTO.getName();
-		System.out.print("\n: " + userName + " just logged out");
+		System.out.print("\n< " + userName + " just logged out");
 	}
 
 	private void processConfirmationDTO(Object obj) {
 		var confirmationDTO = (StockUpdateConfirmDTO) obj;
-		System.out.print("\n: " + confirmationDTO + " successfully");
+		System.out.print("\n< " + confirmationDTO + " successfully");
 	}
 
 	private void processSubscriptionDTO(Object obj) {
@@ -68,7 +68,7 @@ public class ReadThreadAdmin implements Runnable {
 		if(isSubscribed)out.append(" subscribed to ");
 		else out.append(" unsubscribed from ");
 		out.append(stockName);
-		System.out.print("\n: " + out);
+		System.out.print("\n< " + out);
 	}
 }
 
