@@ -5,7 +5,6 @@
 Classes/
 *.zip
 2005020/
-*.txt
 
 # Log file
 *.log

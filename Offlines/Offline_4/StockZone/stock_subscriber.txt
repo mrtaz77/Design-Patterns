@@ -1,0 +1,10 @@
+c3 P1
+c4 P1
+c2 P1
+c3 P2
+c4 P3
+c1 P3
+c3 P4
+c1 P5
+c1 P6
+c2 P6

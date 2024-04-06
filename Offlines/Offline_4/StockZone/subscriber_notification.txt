@@ -1,0 +1,5 @@
+c4 Price of P3 changed from 80 to 67
+c4 Quantity of P1 changed from 3 to 7
+c4 Price of P3 changed from 67 to 59
+c4 Price of P1 changed from 40 to 37.65
+c2 Price of P1 changed from 40 to 37.65
