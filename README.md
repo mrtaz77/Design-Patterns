@@ -28,5 +28,17 @@ A chronicle of various design patterns implemented under software engineering co
 			
  - Problem-II
 	- [UML Diagram](/Offlines/Offline_3/Not%20A%20Virus/Not%20A%20Virus.pdf)
-	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus` **Composite pattern**\
-	*Got bonus for using singleton pattern in root :relaxed:*
+	- [Solution](/Offlines/Offline_3/Not%20A%20Virus/) : `Not A Virus` **Composite pattern & Singleton**
+
+ **Behavioral Design Pattern**
+ - [Specification](/Offlines/Offline_4/CSE308_Behavioural_Design_Pattern.pdf)
+ - [Solution](/Offlines/Offline_4/StockZone/) : `StockZone` **Observer pattern**
+
+## Onlines
+ - Online-1
+	- [Specification](/Onlines/From20/Online1/A1/spec.pdf)
+	- [Solution](/Onlines/From20/Online1/A1/adapter/parser/Adapter.java) **Adapter Pattern**
+
+ - Online-2
+	- [Specification](/Onlines/From20/Online2/A1/Load%20Testing%20with%20JMeter%20Online.pdf)
+	- [Solution](/Onlines/From20/Online2/A1/) **Load Testing**
